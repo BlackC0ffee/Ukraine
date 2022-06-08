@@ -1,6 +1,6 @@
 <html>
 <head>
-
+    <title> Ukraine map &#127803;</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
     <link rel="stylesheet" href="./style.css" />
@@ -8,11 +8,22 @@
 <body>
 <div id="map"></div>
 <script>
-    var map = L.map('map').setView([51.505, -0.09], 13);
+    var map = L.map('map').setView([50.4129, 30.5846], 9); //TODO add better names
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '© OpenStreetMap'
+        attribution: '&copy; OpenStreetMap'
     }).addTo(map);
+
+    //Adds a circle
+    var circle = L.circle([50.4129, 30.5846], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 1500
+}).addTo(map);
+
+    //Draw stuff
+    // todo: https://github.com/Leaflet/Leaflet.toolbar
 </script>
 </body>
 </html>

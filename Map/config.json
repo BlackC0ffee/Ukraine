@@ -1,0 +1,5 @@
+var config = {
+    "Longitude": "50.4129",
+    "Latitude": "30.5846",
+    "ZoomLevel": "9"
+}

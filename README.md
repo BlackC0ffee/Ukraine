@@ -1,6 +1,5 @@
 # Run Poc
-docker build -t ukrainemap .
-docker run -d -p 80:80 ukrainemap
+docker run -d -p 80:80 -v $(pwd)/Map:/usr/share/nginx/html nginx
 
 # Todo
 https://bopen.github.io/leaflet-area-selection/

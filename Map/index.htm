@@ -6,6 +6,10 @@
     <script src= "config.json"></script>
     <script src="./plugins/leaflet-search.src.js"></script>
     <link rel="stylesheet" href="./style.css" />
+
+      
+<link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />
+<script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>  
 </head>
 <body>
 <div id="map"></div>
@@ -18,6 +22,11 @@ map.addLayer(new L.TileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x
     maxZoom: 20,
     attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
 }));
+
+map.pm.addControls({  
+  position: 'topleft',  
+  drawCircle: false,  
+});  
 
 /*map.addControl( new L.Control.Search({
 		url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',

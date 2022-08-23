@@ -3,8 +3,9 @@
     <title> Ukraine map &#127803;</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
-    <script src= "config.json"></script>
-    <script src="./plugins/leaflet-search.src.js"></script>
+    <script src="config.json"></script>
+    <Script src="map.js"></Script>
+    <!--<script src="./plugins/leaflet-search.src.js"></script>-->
     <link rel="stylesheet" href="./style.css" />
 
       
@@ -13,9 +14,13 @@
 </head>
 <body>
 <div id="map"></div>
+<textarea id="OutputBox" rows="5" cols="50">
+
+</textarea>
 
 <script>
 
+var pol = new Array();
 var map = new L.Map('map', {zoom: config.ZoomLevel, center: new L.latLng([config.Longitude,config.Latitude]) });
 
 map.addLayer(new L.TileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
@@ -23,7 +28,29 @@ map.addLayer(new L.TileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x
     attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
 }));
 
-map.pm.addControls({  
+var polygon = L.polygon(pol).addTo(map);
+
+var circle = L.circle([50.4129, 30.5846], {
+color: 'red',
+fillColor: '#f03',
+fillOpacity: 0.5,
+radius: 1500
+}).addTo(map);
+
+map.on('click', onMapClick);
+
+/*var polygon = L.polygon([
+    [50.313545, 30.438550],
+    [50.300136, 30.596980],
+    [50.152036, 30.549941]
+]).addTo(map);*/
+
+
+
+
+
+
+/*map.pm.addControls({  
   position: 'topleft',  
   drawCircle: false,  
 });  

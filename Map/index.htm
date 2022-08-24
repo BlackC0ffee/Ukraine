@@ -14,12 +14,15 @@
 </head>
 <body>
 <div id="map"></div>
-<textarea id="OutputBox" rows="5" cols="50">
-
-</textarea>
+<textarea id="OutputBox" rows="5" cols="50"></textarea>
+<input type="color"><br/>
+<select name="Polygones" size="3">
+    <option value="Ukraine">Ukraine</option>  
+    <option value="Russia">Russia</option>
+    <option value="Russia">Contested</option>
+</select>  
 
 <script>
-
 var pol = new Array();
 var map = new L.Map('map', {zoom: config.ZoomLevel, center: new L.latLng([config.Longitude,config.Latitude]) });
 
@@ -39,13 +42,18 @@ radius: 1500
 
 map.on('click', onMapClick);
 
-/*var polygon = L.polygon([
+/*var polygon1 = L.polygon([
     [50.313545, 30.438550],
     [50.300136, 30.596980],
     [50.152036, 30.549941]
-]).addTo(map);*/
+],{color: 'red'}).addTo(map);*/
+var redPolygon = new Polygon([[50.313545, 30.438550],[50.300136, 30.596980],[50.152036, 30.549941]], 'red');
 
-
+var listOfPolygons = Array();
+newPolygon = { name: "Russia", polygon: L.polygon([[50.313545, 30.438550],[50.300136, 30.596980],[50.152036, 30.549941]], {color: 'red'}).addTo(map) };
+listOfPolygons.push(newPolygon);
+newPolygon = { name: "Ukraine", polygon: L.polygon([[50.813473418610855, 30.65039247441629],[50.53488173986912, 30.674422509019458],[50.566317093161246, 30.42140037996258]]).addTo(map) }
+listOfPolygons.push(newPolygon);
 
 
 

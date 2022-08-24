@@ -1,3 +1,8 @@
+function Polygon(Cordinates, Color) {
+    this.Cordinates = Cordinates;
+    this.Color = Color;
+}
+
 function onMapClick(e) {
     //polygon.remove();
     pol.push([e.latlng.lat,e.latlng.lng])

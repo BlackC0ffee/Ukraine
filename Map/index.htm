@@ -15,9 +15,9 @@
 <body>
 <div id="map"></div>
 <textarea id="OutputBox" rows="5" cols="50"></textarea>
-<input type="color" name="inputColor"><br>
-<button onclick="newPolygon(document.getElementsByName('Polygones').value, document.getElementsByName('inputColor')[0].value)">New Polygon</button><br>
-<select name="Polygones" size="3">
+<hr>
+<div>Name: <input type="text" name="polygoneName"> Color: <input type="color" name="inputColor"> Add: <button onclick="newPolygon(document.getElementsByName('polygoneName')[0].value, document.getElementsByName('inputColor')[0].value)">New Polygon</button></div>
+<select id="PolygonsList" size="3">
     <option value="Ukraine">Ukraine</option>  
     <option value="Russia">Russia</option>
     <option value="Contested">Contested</option>
@@ -27,7 +27,7 @@
 var map = new L.Map('map', {zoom: config.ZoomLevel, center: new L.latLng([config.Longitude,config.Latitude]) });
 var pol = new Array();
 var listOfPolygons = Array();
-var activePolygon = { name: "Russia", polygon: L.polygon(pol, {color: 'red'}).addTo(map) }
+var activePolygon// = { name: "Russia", polygon: L.polygon(pol, {color: 'red'}).addTo(map) }
 
 map.addLayer(new L.TileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
     maxZoom: 20,
@@ -71,16 +71,6 @@ map.on('click', onMapClick);
 		minLength: 2
 	}) );
 */
-
-
-//Adds a circle
-var circle = L.circle([50.4129, 30.5846], {
-color: 'red',
-fillColor: '#f03',
-fillOpacity: 0.5,
-radius: 1500
-}).addTo(map); 
-
 //var Stadia_Outdoors = L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
 //	maxZoom: 20,
 //	attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'

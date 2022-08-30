@@ -15,6 +15,15 @@ function newPolygon(name, color){
     opt.text = name;
     opt.value = name;
     document.getElementById('PolygonsList').options.add(opt);
+    EnableCrosshair();
+}
+
+function EnableCrosshair(){
+    L.DomUtil.addClass(map._container,'crosshair-cursor-enabled');
+}
+
+function DisableCrosshair(){
+    L.DomUtil.removeClass(map._container,'crosshair-cursor-enabled');
 }
 
 function convertToJson(listOfPolygons){

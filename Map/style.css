@@ -1,1 +1,5 @@
 #map { height: 750px; }
+
+.leaflet-container.crosshair-cursor-enabled {
+    cursor:crosshair;
+}

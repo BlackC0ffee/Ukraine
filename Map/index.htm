@@ -16,12 +16,18 @@
 <div id="map"></div>
 <textarea id="OutputBox" rows="5" cols="50"></textarea>
 <hr>
-<div>Name: <input type="text" name="polygoneName"> Color: <input type="color" name="inputColor"> Add: <button onclick="newPolygon(document.getElementsByName('polygoneName')[0].value, document.getElementsByName('inputColor')[0].value)">New Polygon</button></div>
-<select id="PolygonsList" size="3">
-    <option value="Ukraine">Ukraine</option>  
-    <option value="Russia">Russia</option>
-    <option value="Contested">Contested</option>
-</select>  
+<div>
+    Name: <input type="text" name="polygoneName">
+    Color: <select id="colorList">
+        <option value="#FFB400">Contested</option>
+        <option value="#004BFF">Ukraine</option>  
+        <option value="#C80000">Russia</option>
+    </select>  
+    <!--<input type="color" name="inputColor"> FFE600-->
+    Add: <button onclick="newPolygon(document.getElementsByName('polygoneName')[0].value, document.getElementById('colorList').value)">New Polygon</button>
+</div>
+
+<select id="PolygonsList" size="3"></select>  
 
 <script>
 var map = new L.Map('map', {zoom: config.ZoomLevel, center: new L.latLng([config.Longitude,config.Latitude]) });

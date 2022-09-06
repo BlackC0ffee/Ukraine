@@ -26,7 +26,7 @@ function BuildPolygonList(){
     //list.remove(list.selectedIndex);
     //list.remove();
 
-    for (let index = 0; index <= listOfPolygons.length; index++) {
+    for (let index = 0; index < listOfPolygons.length; index++) {
         opt = document.createElement("option");
         opt.text = listOfPolygons[index].name;
         opt.value = listOfPolygons[index].name; //Index might be better

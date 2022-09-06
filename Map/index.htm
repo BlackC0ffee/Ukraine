@@ -17,19 +17,33 @@
 <textarea id="OutputBox" rows="5" cols="50"></textarea>
 <hr>
 <div>
-    Name: <input type="text" name="polygoneName">
+    Name: <input type="text" name="polygonName">
     Color: <select id="colorList">
         <option value="#FFB400">Contested</option>
         <option value="#004BFF">Ukraine</option>  
         <option value="#C80000">Russia</option>
     </select>  
     <!--<input type="color" name="inputColor">-->
-    Add: <button onclick="newPolygon(document.getElementsByName('polygoneName')[0].value, document.getElementById('colorList').value)">New Polygon</button>
+    Add: <button id="newPolygon" onclick="">New Polygon</button>
 </div>
 
-<select id="PolygonsList" size="3"></select>  
+<select id="PolygonsList" size="3" onChange="makePolygonActive(this)";></select>  
 
 <script>
+
+//Events
+document.getElementById("newPolygon").addEventListener("click", newPolygonEvent);
+
+//Functions
+function newPolygonEvent() {
+    colorOptions = document.getElementById('colorList')
+    if(document.getElementsByName('polygonName')[0].value == ""){
+        polygonName = colorOptions[colorOptions.selectedIndex].innerText;
+    }
+    newPolygon(polygonName, colorOptions.value)
+}
+
+//MappShizzle
 var map = new L.Map('map', {zoom: config.ZoomLevel, center: new L.latLng([config.Longitude,config.Latitude]) });
 var pol = new Array();
 var listOfPolygons = Array();

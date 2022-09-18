@@ -14,7 +14,7 @@
 </head>
 <body>
 <div id="map"></div>
-<textarea id="OutputBox" rows="5" cols="50"></textarea>
+<textarea id="OutputBox" rows="5" cols="50"></textarea> <button id="Save" onclick="exportData(listOfPolygons, 'test.json', 'text/plain')">Generate files</button> <a href="" id="a">click here to download your file</a>
 <hr>
 <div>
     Name: <input type="text" name="polygonName">
@@ -24,7 +24,7 @@
         <option value="#C80000">Russia</option>
     </select>  
     <!--<input type="color" name="inputColor">-->
-    Add: <button id="newPolygon" onclick="">New Polygon</button>
+    Add: <button id="newPolygon" onclick="">New Polygon</button> | <button id="undoButton" onclick="undoButtonClick()">Undo</button>
 </div>
 
 <select id="PolygonsList" size="3" onChange="makePolygonActive(this)";></select>  
@@ -49,10 +49,26 @@ var pol = new Array();
 var listOfPolygons = Array();
 var activePolygon// = { name: "Russia", polygon: L.polygon(pol, {color: 'red'}).addTo(map) }
 
+//StadiaMaps
 map.addLayer(new L.TileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
     maxZoom: 20,
     attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
 }));
+
+//OpenStreetmap
+//L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//    maxZoom: 19,
+//    attribution: '© OpenStreetMap'
+//}).addTo(map);
+
+//https://wiki.openstreetmap.org/wiki/Tiles#Servers
+
+//osMap (open street map with english names)
+/*L.tileLayer('https://osmap.{s}.tile.mapcdn.net/en/map/v1/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+        //minZoom: world,
+		attribution: 'Data © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors | ' + 'Licence: <a href="http://opendatacommons.org/licenses/odbl/" target="_blank" title="Open Data Commons Open Database Licence">ODbL</a> | <a href="https://www.maptilesapi.com" target="_blank" title="Tiles accessible from MapTiles API">MapTiles API</a>'
+}).addTo(map);*/
 
 /*
 var circle = L.circle([50.4129, 30.5846], {
@@ -64,23 +80,6 @@ radius: 1500
 
 map.on('click', onMapClick);
 
-/*map.pm.addControls({  
-  position: 'topleft',  
-  drawCircle: false,  
-});  
-*/
-//var Stadia_Outdoors = L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
-//	maxZoom: 20,
-//	attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-//});
-
-//var Jawg_Terrain = L.tileLayer('https://{s}.tile.jawg.io/jawg-terrain/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
-//	attribution: '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-//	minZoom: 0,
-//	maxZoom: 22,
-//	subdomains: 'abcd',
-//	accessToken: '<your accessToken>'
-//});
 </script>
 </body>
 </html>

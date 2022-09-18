@@ -1,9 +1,17 @@
 function onMapClick(e) {
-    //polygon.remove();
     pol.push([e.latlng.lat,e.latlng.lng])
+    generateActivePolygon(pol);
+}
+
+function undoButtonClick(e){
+    pol.pop();
+    generateActivePolygon(pol);
+}
+
+function generateActivePolygon(cordinates){
     textbx = document.getElementById('OutputBox');
     textbx.value = JSON.stringify(activePolygon.polygon.toGeoJSON());
-    activePolygon.polygon.setLatLngs(pol);
+    activePolygon.polygon.setLatLngs(cordinates);
 }
 
 function newPolygon(name, color){
@@ -59,9 +67,23 @@ function convertToJson(listOfPolygons){
 }
 
 function convertFromJson(listOfPolygons){
-    console.log("todo");
+    var innerArray = Array();
+    var item = Array();
+    listOfPolygons.forEach(element => {
+        item.name = element.name
+        item.cordinates = JSON.stringify(element.polygon.toGeoJSON());
+        innerArray.push(item)
+    });
+    return innerArray;
 }
 
+function exportData(text, name, type) {
+    convertFromJson(listOfPolygons);
+    var a = document.getElementById("a");
+    var file = new Blob([text], {type: type});
+    a.href = URL.createObjectURL(file);
+    a.download = name;
+}
 //latlng: v
 //lat: 50.15050636899788
 //lng: 31.129760742187504

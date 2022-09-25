@@ -12,6 +12,8 @@ function generateActivePolygon(cordinates){
     textbx = document.getElementById('OutputBox');
     textbx.value = JSON.stringify(activePolygon.polygon.toGeoJSON());
     activePolygon.polygon.setLatLngs(cordinates);
+    let currentDate = new Date().toJSON().slice(0, 10);
+    exportData(listOfPolygons, currentDate + '.json', 'text/plain');
 }
 
 function newPolygon(name, color){
@@ -75,7 +77,10 @@ function makePolygonActive(e){
 }
 
 function convertToJson(listOfPolygons){
-    console.log("todo");
+    activePolygon.forEach(element => {
+        
+    });
+    textbx.value = JSON.stringify(activePolygon.polygon.toGeoJSON());
 }
 
 function convertFromJson(listOfPolygons){
@@ -89,10 +94,19 @@ function convertFromJson(listOfPolygons){
     return innerArray;
 }
 
-function exportData(text, name, type) {
-    convertFromJson(listOfPolygons);
+function exportData(polygonList, name, type) {
+    var jsobObj = new Array();
+    // = {id: activePolygon.id, name: activePolygon.name, polygonCordinates:activePolygon.polygon.getLatLngs(), color: activePolygon.polygon.options['color']}
+    polygonList.forEach(element => {
+        jsobObj.push({id: element.id, name: element.name, polygonCordinates:element.polygon.getLatLngs(), color: element.polygon.options['color']})
+    });
+    
+    var jsonout = JSON.stringify(jsobObj);
+        
+        //activePolygon.polygon.toGeoJSON());
+    //convertFromJson(listOfPolygons);
     var a = document.getElementById("a");
-    var file = new Blob([text], {type: type});
+    var file = new Blob([jsonout], {type: type});
     a.href = URL.createObjectURL(file);
     a.download = name;
 }

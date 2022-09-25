@@ -17,7 +17,7 @@
 <textarea id="OutputBox" rows="5" cols="50"></textarea> <button id="Save" onclick="exportData(listOfPolygons, 'test.json', 'text/plain')">Generate files</button> <a href="" id="a">click here to download your file</a>
 <hr>
 <div>
-    Name: <input type="text" name="polygonName">
+    Name: <input type="text" name="polygonName" id="polygonName">
     Color: <select id="colorList">
         <option value="#FFB400">Contested</option>
         <option value="#004BFF">Ukraine</option>  
@@ -36,11 +36,14 @@ document.getElementById("newPolygon").addEventListener("click", newPolygonEvent)
 
 //Functions
 function newPolygonEvent() {
+    var name;
     colorOptions = document.getElementById('colorList')
-    if(document.getElementsByName('polygonName')[0].value == ""){
-        polygonName = colorOptions[colorOptions.selectedIndex].innerText;
+    if(document.getElementById('polygonName').value != ""){
+        name = document.getElementById('polygonName').value;
+    }else{
+        name = colorOptions[colorOptions.selectedIndex].innerText;
     }
-    newPolygon(polygonName, colorOptions.value)
+    newPolygon(name, colorOptions.value)
 }
 
 //MappShizzle

@@ -51,13 +51,14 @@ function DisableCrosshair(){
 }
 
 function makePolygonActive(e){
-    console.log(e.value);
     for (let index = 0; index < listOfPolygons.length; index++) {
         if(listOfPolygons[index].name == e.value){
-            console.log(pol);
-            pol = listOfPolygons[index].polygon._latlngs[0];
-            console.log(pol);
-            //activePolygon = { name: listOfPolygons[index].name, polygon: L.polygon(pol, {color: listOfPolygons[index].polygon.options.color}).addTo(map) }
+            activePolygon = listOfPolygons[index]
+            pol = new Array();
+            activePolygon.polygon._latlngs[0].forEach(element => {
+                pol.push([element.lat,element.lng])
+            });
+            generateActivePolygon(pol);
         }     
     }
 }

@@ -18,7 +18,7 @@ function newPolygon(name, color){
     //if (activePolygon != null) { listOfPolygons.push(activePolygon); }
     
     pol = new Array();
-    activePolygon = { name: name, polygon: L.polygon(pol, {color: color}).addTo(map) }
+    activePolygon = {id: (new Date().getTime()), name: name, polygon: L.polygon(pol, {color: color}).addTo(map) }
     listOfPolygons.push(activePolygon);
     BuildPolygonList();
 
@@ -31,13 +31,11 @@ function BuildPolygonList(){
     for (i = list.length - 1; i >= 0; i--) {
         list.remove(i);
     }
-    //list.remove(list.selectedIndex);
-    //list.remove();
 
     for (let index = 0; index < listOfPolygons.length; index++) {
         opt = document.createElement("option");
         opt.text = listOfPolygons[index].name;
-        opt.value = listOfPolygons[index].name; //Index might be better
+        opt.value = listOfPolygons[index].id; //Index might be better
         list.options.add(opt);
     }
 }
@@ -52,7 +50,7 @@ function DisableCrosshair(){
 
 function makePolygonActive(e){
     for (let index = 0; index < listOfPolygons.length; index++) {
-        if(listOfPolygons[index].name == e.value){
+        if(listOfPolygons[index].id == e.value){
             activePolygon = listOfPolygons[index]
             pol = new Array();
             activePolygon.polygon._latlngs[0].forEach(element => {

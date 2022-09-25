@@ -26,9 +26,9 @@
     <!--<input type="color" name="inputColor">-->
     Add: <button id="newPolygon" onclick="">New Polygon</button> | <button id="undoButton" onclick="undoButtonClick()">Undo</button>
 </div>
-
-<select id="PolygonsList" size="3" onChange="makePolygonActive(this)";></select>  
-
+<div>
+    <select id="PolygonsList" size="3" onChange="makePolygonActive(this)";></select> <button id="removeSelected" onclick="RemoveSelected(document.getElementById('PolygonsList'))">Remove Polygon</button>
+</div>
 <script>
 
 //Events

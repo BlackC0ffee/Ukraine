@@ -40,6 +40,19 @@ function BuildPolygonList(){
     }
 }
 
+function RemoveSelected(e){
+    console.log(e.value) //remove() method
+    for (let index = 0; index < listOfPolygons.length; index++) {
+        if(listOfPolygons[index].id == e.value){
+            listOfPolygons[index].polygon.remove();
+            listOfPolygons.splice(index, 1);
+        }
+    }
+    activePolygon = new Array();
+    pol = new Array();
+    BuildPolygonList();
+}
+
 function EnableCrosshair(){
     L.DomUtil.addClass(map._container,'crosshair-cursor-enabled');
 }
@@ -53,7 +66,7 @@ function makePolygonActive(e){
         if(listOfPolygons[index].id == e.value){
             activePolygon = listOfPolygons[index]
             pol = new Array();
-            activePolygon.polygon._latlngs[0].forEach(element => {
+            activePolygon.polygon._latlngs[0].forEach(element => { //TODO: replace with method getLatLngs()
                 pol.push([element.lat,element.lng])
             });
             generateActivePolygon(pol);

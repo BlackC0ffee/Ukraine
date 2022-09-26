@@ -71,7 +71,7 @@ function makePolygonActive(e){
             activePolygon.polygon._latlngs[0].forEach(element => { //TODO: replace with method getLatLngs()
                 pol.push([element.lat,element.lng])
             });
-            generateActivePolygon(pol);
+            generateActivePolygon();
         }     
     }
 }
@@ -102,14 +102,34 @@ function exportData(polygonList, name, type) {
     });
     
     var jsonout = JSON.stringify(jsobObj);
-        
-        //activePolygon.polygon.toGeoJSON());
-    //convertFromJson(listOfPolygons);
     var a = document.getElementById("a");
     var file = new Blob([jsonout], {type: type});
     a.href = URL.createObjectURL(file);
     a.download = name;
 }
+
+function importJsonData(JsonData){
+    var innerArray = JSON.parse(JsonData);
+    innerArray.forEach(element => {
+        var innerPolygon = {id: element.id, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color}).addTo(map) }
+        listOfPolygons.push(innerPolygon);
+        
+    });
+    BuildPolygonList();
+}
+
+function uploadJson(e){
+    //https://gomakethings.com/how-to-upload-and-process-a-json-file-with-vanilla-js/
+    e.preventDefault();
+	if (!file.value.length) return;
+	let reader = new FileReader();
+	reader.readAsText(file.files[0]);
+    reader.onload = function() {
+        importJsonData(reader.result);
+    };
+}
+
+
 //latlng: v
 //lat: 50.15050636899788
 //lng: 31.129760742187504

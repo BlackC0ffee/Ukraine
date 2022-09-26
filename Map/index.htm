@@ -14,7 +14,7 @@
 </head>
 <body>
 <div id="map"></div>
-<textarea id="OutputBox" rows="5" cols="50"></textarea> <button id="Save" onclick="exportData(listOfPolygons, 'test.json', 'text/plain')">Generate files</button> <a href="" id="a">click here to download your file</a>
+<textarea id="OutputBox" rows="5" cols="50"></textarea> <button id="Save" onclick="exportData(listOfPolygons, 'test.json', 'text/plain')">Generate files</button> <a href="" id="a">click here to download your file</a> | 
 <hr>
 <div>
     Name: <input type="text" name="polygonName" id="polygonName">
@@ -29,10 +29,21 @@
 <div>
     <select id="PolygonsList" size="3" onChange="makePolygonActive(this)";></select> <button id="removeSelected" onclick="RemoveSelected(document.getElementById('PolygonsList'))">Remove Polygon</button>
 </div>
+<div>
+    <form id="upload">
+        <label for="file">File to upload</label>
+        <input type="file" id="file" accept=".json">
+    
+        <button>Upload</button>
+    </form>
+</div>
 <script>
+
+//let file = document.querySelector('#file');
 
 //Events
 document.getElementById("newPolygon").addEventListener("click", newPolygonEvent);
+document.getElementById("upload").addEventListener('submit', uploadJson);
 
 //Functions
 function newPolygonEvent() {

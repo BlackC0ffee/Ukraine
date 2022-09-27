@@ -58,16 +58,23 @@ function newPolygonEvent() {
 }
 
 //MappShizzle
-var map = new L.Map('map', {zoom: config.ZoomLevel, center: new L.latLng([config.Longitude,config.Latitude]) });
+var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© OpenStreetMap'});
+var stadia = L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {maxZoom: 20, attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'});
+var map = L.map('map', {center: [39.73, -104.99], zoom: 10, center: new L.latLng([config.Longitude,config.Latitude]), layers: [osm,stadia] });
+
+var baseMaps = { "OpenStreetMap": osm, "Stadia Maps": stadia };
+var layerControl = L.control.layers(baseMaps).addTo(map);
+
+//var map = new L.Map('map', {zoom: config.ZoomLevel, center: new L.latLng([config.Longitude,config.Latitude]) });
 var pol = new Array();
 var listOfPolygons = Array();
-var activePolygon// = { name: "Russia", polygon: L.polygon(pol, {color: 'red'}).addTo(map) }
+var activePolygon
 
 //StadiaMaps
-map.addLayer(new L.TileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
-    maxZoom: 20,
-    attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-}));
+//map.addLayer(new L.TileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
+//    maxZoom: 20,
+//    attribution: 
+//}));
 
 //OpenStreetmap
 //L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -82,14 +89,6 @@ map.addLayer(new L.TileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x
 		maxZoom: 19,
         //minZoom: world,
 		attribution: 'Data © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors | ' + 'Licence: <a href="http://opendatacommons.org/licenses/odbl/" target="_blank" title="Open Data Commons Open Database Licence">ODbL</a> | <a href="https://www.maptilesapi.com" target="_blank" title="Tiles accessible from MapTiles API">MapTiles API</a>'
-}).addTo(map);*/
-
-/*
-var circle = L.circle([50.4129, 30.5846], {
-color: 'red',
-fillColor: '#f03',
-fillOpacity: 0.5,
-radius: 1500
 }).addTo(map);*/
 
 map.on('click', onMapClick);

@@ -27,7 +27,7 @@
     Add: <button id="newPolygon" onclick="">New Polygon</button> | <button id="undoButton" onclick="undoButtonClick()">Undo</button>
 </div>
 <div>
-    <select id="PolygonsList" size="3" onChange="makePolygonActive(this)";></select> <button id="removeSelected" onclick="RemoveSelected(document.getElementById('PolygonsList'))">Remove Polygon</button>
+    <select id="PolygonsList" size="3" onChange="makePolygonActive(this)";></select> <button id="removeSelected" onclick="RemoveSelected(document.getElementById('PolygonsList'))">Remove Polygon</button> | Stroke: <input type="button" value="On" id="strokeButton" onclick="onoff(this);">
 </div>
 <div>
     <form id="upload">
@@ -57,10 +57,22 @@ function newPolygonEvent() {
     newPolygon(name, colorOptions.value)
 }
 
+function onoff(e){
+  currentvalue = e.value;
+  if(currentvalue == "Off"){
+    e.value="On";
+    activePolygon.polygon.setStyle({stroke: true})
+  }else{
+    e.value="Off";
+    activePolygon.polygon.setStyle({stroke: false})
+  }
+}
+
 //MappShizzle
 var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© OpenStreetMap'});
 var stadia = L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {maxZoom: 20, attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'});
-var map = L.map('map', {center: [39.73, -104.99], zoom: 10, center: new L.latLng([config.Longitude,config.Latitude]), layers: [osm,stadia] });
+var map = L.map('map', {center: [39.73, -104.99], zoom: 10, zoomDelta: 0.7, zoomSnap: 1, center: new L.latLng([config.Longitude,config.Latitude]), layers: [osm,stadia] });
+//
 
 var baseMaps = { "OpenStreetMap": osm, "Stadia Maps": stadia };
 var layerControl = L.control.layers(baseMaps).addTo(map);

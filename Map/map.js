@@ -110,8 +110,9 @@ function exportData(polygonList, name, type) {
 
 function importJsonData(JsonData){
     var innerArray = JSON.parse(JsonData);
+    listOfPolygons = Array();
     innerArray.forEach(element => {
-        var innerPolygon = {id: element.id, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color}).addTo(map) }
+        var innerPolygon = {id: element.id, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color, stroke: false}).addTo(map) }
         listOfPolygons.push(innerPolygon);
         
     });

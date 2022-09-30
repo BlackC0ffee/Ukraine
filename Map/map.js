@@ -71,6 +71,13 @@ function makePolygonActive(e){
             activePolygon.polygon._latlngs[0].forEach(element => { //TODO: replace with method getLatLngs()
                 pol.push([element.lat,element.lng])
             });
+            if(activePolygon.polygon.options.stroke){
+                document.getElementById("strokeButton").value = "On"
+            }else{
+                document.getElementById("strokeButton").value = "Off"
+            }
+            document.getElementById("polygonName").value = activePolygon.name
+                       
             generateActivePolygon();
         }     
     }
@@ -108,11 +115,16 @@ function exportData(polygonList, name, type) {
     a.download = name;
 }
 
+function alertTest(){
+    alert(e.latlng);
+}
+
 function importJsonData(JsonData){
     var innerArray = JSON.parse(JsonData);
     listOfPolygons = Array();
     innerArray.forEach(element => {
         var innerPolygon = {id: element.id, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color, stroke: false}).addTo(map) }
+        //innerPolygon.polygon.on('click', alertTest(e));
         listOfPolygons.push(innerPolygon);
         
     });
@@ -130,6 +142,11 @@ function uploadJson(e){
     };
 }
 
+function redrawPolygons() {
+    listOfPolygons.forEach(element => {
+        element.polygon.redraw();
+    });
+}
 
 //latlng: v
 //lat: 50.15050636899788

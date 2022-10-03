@@ -129,6 +129,8 @@ function importJsonData(JsonData){
         
     });
     BuildPolygonList();
+    let currentDate = new Date().toJSON().slice(0, 10);
+    exportData(listOfPolygons, currentDate + '.json', 'text/plain');
 }
 
 function uploadJson(e){

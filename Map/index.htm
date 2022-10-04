@@ -27,7 +27,7 @@
     Add: <button id="newPolygon" onclick="">New Polygon</button> | <button id="undoButton" onclick="undoButtonClick()">Undo</button> | <button id="redrawButton" onclick="redrawPolygons()">Redraw</button>
 </div>
 <div>
-    <select id="PolygonsList" size="3" onChange="makePolygonActive(this)";></select> <button id="removeSelected" onclick="RemoveSelected(document.getElementById('PolygonsList'))">Remove Polygon</button> | Stroke: <input type="button" value="On" id="strokeButton" onclick="stroke(this);">
+    <select id="PolygonsList" size="3" onChange="makePolygonActive(this)";></select> <button id="removeSelected" onclick="RemoveSelected(document.getElementById('PolygonsList'))">Remove Polygon</button> | Stroke: <input type="button" value="On" id="strokeButton" onclick="stroke(this);"> | Select Polygon: <input type="button" value="Off" id="selectPolygonButton" onclick="selectPolygonOnOff(this);">
 </div>
 <div>
     <form id="upload">
@@ -38,6 +38,7 @@
     </form>
 </div>
 <script>
+
 
 //Events
 document.getElementById("newPolygon").addEventListener("click", newPolygonEvent);
@@ -66,6 +67,18 @@ function stroke(e){
   }
 }
 
+function selectPolygonOnOff(e){
+    currentvalue = e.value;
+    if(currentvalue == "Off"){
+        e.value="On";
+        map.off('click', onMapClick);
+    }else{
+        e.value="Off";
+        map.on('click', onMapClick);
+        activePolygon.polygon.setStyle({stroke: false})
+    }
+}
+
 //MappShizzle
 var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© OpenStreetMap'});
 var stadia = L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {maxZoom: 20, attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'});
@@ -80,6 +93,8 @@ var layerControl = L.control.layers(baseMaps).addTo(map);
 var pol = new Array();
 var listOfPolygons = Array();
 var activePolygon
+
+map.on('click', onMapClick);
 
 //StadiaMaps
 //map.addLayer(new L.TileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
@@ -102,7 +117,7 @@ var activePolygon
 		attribution: 'Data © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors | ' + 'Licence: <a href="http://opendatacommons.org/licenses/odbl/" target="_blank" title="Open Data Commons Open Database Licence">ODbL</a> | <a href="https://www.maptilesapi.com" target="_blank" title="Tiles accessible from MapTiles API">MapTiles API</a>'
 }).addTo(map);*/
 
-map.on('click', onMapClick);
+
 
 </script>
 </body>

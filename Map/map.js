@@ -124,6 +124,9 @@ function importJsonData(JsonData){
     listOfPolygons = Array();
     innerArray.forEach(element => {
         var innerPolygon = {id: element.id, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color, stroke: false}).addTo(map) }
+        innerPolygon.polygon.on({
+            dblclick: selectPolygon
+        })
         //innerPolygon.polygon.on('click', alertTest(e));
         listOfPolygons.push(innerPolygon);
         
@@ -147,6 +150,28 @@ function uploadJson(e){
 function redrawPolygons() {
     listOfPolygons.forEach(element => {
         element.polygon.redraw();
+    });
+}
+
+function selectPolygon(e){
+    var layer=e.target;
+    listOfPolygons.forEach(element => {
+        var p = element.polygon
+        if(layer == p){
+            activePolygon = element;
+            pol = new Array();
+            activePolygon.polygon._latlngs[0].forEach(element => { //TODO: replace with method getLatLngs()
+                pol.push([element.lat,element.lng])
+            });
+            if(activePolygon.polygon.options.stroke){
+                document.getElementById("strokeButton").value = "On"
+            }else{
+                document.getElementById("strokeButton").value = "Off"
+            }
+            document.getElementById("polygonName").value = activePolygon.name
+                       
+            generateActivePolygon();
+        }
     });
 }
 

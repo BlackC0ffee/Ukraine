@@ -43,9 +43,8 @@ function BuildPolygonList(){
 }
 
 function RemoveSelected(e){
-    console.log(e.value) //remove() method
     for (let index = 0; index < listOfPolygons.length; index++) {
-        if(listOfPolygons[index].id == e.value){
+        if(listOfPolygons[index].id == e.id){
             listOfPolygons[index].polygon.remove();
             listOfPolygons.splice(index, 1);
         }
@@ -147,7 +146,7 @@ function uploadJson(e){
     };
 }
 
-function redrawPolygons() {
+function redrawPolygons() { //TODO Broken :(
     listOfPolygons.forEach(element => {
         element.polygon.redraw();
     });

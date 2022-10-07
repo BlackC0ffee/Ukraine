@@ -1,15 +1,10 @@
-# Run Poc
-docker run -d -p 80:80 -v $(pwd)/Map:/usr/share/nginx/html nginx
+# Ukraine Report - Alpha-One
 
-# Todo
-https://bopen.github.io/leaflet-area-selection/
-https://github.com/Esri/esri-leaflet-geocoder
-https://www.geeksforgeeks.org/how-to-take-screenshot-of-a-div-using-javascript/
+Welcome to alpha-one. This release provides a buggy but workable version of my mapping application I use to report over the situation in Ukraine. It still requires clean-up of code and allot of features needs to be added.
 
-## Measure two points
-http://www.movable-type.co.uk/scripts/latlong.html
+Yes, I know the code is a disaster, I’m planning to clean it up -_-
 
-## Sidebars
+To run it. Install Docker and run the container from inside the root folder of the project.
 
-https://codepen.io/JFarrow/pen/nJgRga
-https://www.codexworld.com/how-to/toggle-show-hide-element-using-javascript/
+```docker run -d -p 80:80 -v $(pwd)/Map:/usr/share/nginx/html nginx```
+

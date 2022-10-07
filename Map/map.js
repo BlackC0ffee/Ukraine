@@ -78,6 +78,7 @@ function makePolygonActive(e){
             document.getElementById("polygonName").value = activePolygon.name
                        
             generateActivePolygon();
+            EnableCrosshair();
         }     
     }
 }

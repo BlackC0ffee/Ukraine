@@ -80,7 +80,7 @@ function selectPolygonOnOff(e){
 }
 
 //MappShizzle
-var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© OpenStreetMap'});
+var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; OpenStreetMap'});
 var stadia = L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {maxZoom: 20, attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'});
 var map = L.map('map', {center: [39.73, -104.99], zoom: config.ZoomLevel, zoomDelta: 0.7, zoomSnap: 1, center: new L.latLng([config.Longitude,config.Latitude]), layers: [stadia, osm] });
 osm.addTo(map);
@@ -95,29 +95,6 @@ var listOfPolygons = Array();
 var activePolygon
 
 map.on('click', onMapClick);
-
-//StadiaMaps
-//map.addLayer(new L.TileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
-//    maxZoom: 20,
-//    attribution: 
-//}));
-
-//OpenStreetmap
-//L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//    maxZoom: 19,
-//    attribution: '© OpenStreetMap'
-//}).addTo(map);
-
-//https://wiki.openstreetmap.org/wiki/Tiles#Servers
-
-//osMap (open street map with english names)
-/*L.tileLayer('https://osmap.{s}.tile.mapcdn.net/en/map/v1/{z}/{x}/{y}.png', {
-		maxZoom: 19,
-        //minZoom: world,
-		attribution: 'Data © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors | ' + 'Licence: <a href="http://opendatacommons.org/licenses/odbl/" target="_blank" title="Open Data Commons Open Database Licence">ODbL</a> | <a href="https://www.maptilesapi.com" target="_blank" title="Tiles accessible from MapTiles API">MapTiles API</a>'
-}).addTo(map);*/
-
-
 
 </script>
 </body>

@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "msedge",
+            "name": "http://pink-01.local",
+            "request": "launch",
+            "url": "http://pink-01.local"
+        }
+    ]
+}

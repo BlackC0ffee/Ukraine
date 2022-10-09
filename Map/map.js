@@ -3,6 +3,17 @@ function onMapClick(e) {
     generateActivePolygon(pol);
 }
 
+function newPolygonEvent() {
+    var name;
+    colorOptions = document.getElementById('colorList')
+    if(document.getElementById('polygonName').value != ""){
+        name = document.getElementById('polygonName').value;
+    }else{
+        name = colorOptions[colorOptions.selectedIndex].innerText;
+    }
+    newPolygon(name, colorOptions.value)
+}
+
 function undoButtonClick(e){
     pol.pop();
     generateActivePolygon(pol);
@@ -12,19 +23,17 @@ function generateActivePolygon(cordinates){
     textbx = document.getElementById('OutputBox');
     textbx.value = JSON.stringify(activePolygon.polygon.toGeoJSON());
     activePolygon.polygon.setLatLngs(cordinates);
+
+    // generate Export Datya
     let currentDate = new Date().toJSON().slice(0, 10);
     exportData(listOfPolygons, currentDate + '.json', 'text/plain');
 }
 
 function newPolygon(name, color){
-    //if (activePolygon != null) { listOfPolygons.push(activePolygon); }
-    
     pol = new Array();
     activePolygon = {id: (new Date().getTime()), name: name, polygon: L.polygon(pol, {color: color}).addTo(map) }
     listOfPolygons.push(activePolygon);
     BuildPolygonList();
-
-    //document.getElementById('PolygonsList').options.add(opt);
     EnableCrosshair();
 }
 
@@ -174,6 +183,35 @@ function selectPolygon(e){
         }
     });
 }
+
+
+
+function stroke(e){
+    currentvalue = e.value;
+    if(currentvalue == "Off"){
+      e.value="On";
+      activePolygon.polygon.setStyle({stroke: true})
+    }else{
+      e.value="Off";
+      activePolygon.polygon.setStyle({stroke: false})
+    }
+  }
+  
+  function selectPolygonOnOff(e){
+      currentvalue = e.value;
+      if(currentvalue == "Off"){
+          e.value="On";
+          map.off('click', onMapClick);
+      }else{
+          e.value="Off";
+          map.on('click', onMapClick);
+          activePolygon.polygon.setStyle({stroke: false})
+      }
+  }
+  
+
+//button functions
+
 
 //latlng: v
 //lat: 50.15050636899788

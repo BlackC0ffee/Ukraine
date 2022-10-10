@@ -3,6 +3,12 @@ function onMapClick(e) {
     generateActivePolygon(pol);
 }
 
+function initVariable(){
+    globalThis.pol = new Array();
+    globalThis.listOfPolygons = new Array();
+    globalThis.activePolygon
+}
+
 function newPolygonEvent() {
     var name;
     colorOptions = document.getElementById('colorList')
@@ -156,10 +162,21 @@ function uploadJson(e){
     };
 }
 
-function redrawPolygons() { //TODO Broken :(
+function redrawPolygons() {
+    let a = document.getElementById("a");
+    let reader = new FileReader();
     listOfPolygons.forEach(element => {
-        element.polygon.redraw();
+        element.polygon.remove();
     });
+    initVariable();
+    fetch(a.href).then(res => res.blob()).then(blob => {
+        //reader.readAsDataURL(blob);
+        reader.readAsText(blob);
+        reader.onload = function() {
+            importJsonData(reader.result);
+        };
+    })
+    //TODO activate the last active polygon (if possible)
 }
 
 function selectPolygon(e){

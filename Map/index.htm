@@ -54,9 +54,12 @@ osm.addTo(map);
 
 var baseMaps = { "OpenStreetMap": osm, "Stadia Maps": stadia };
 var layerControl = L.control.layers(baseMaps).addTo(map);
-var pol = new Array();
-var listOfPolygons = Array();
-var activePolygon
+//var pol = new Array();
+//var listOfPolygons = Array();
+//var activePolygon
+
+
+initVariable();
 
 map.on('click', onMapClick);
 

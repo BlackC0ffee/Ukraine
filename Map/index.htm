@@ -49,7 +49,7 @@ document.getElementById("upload").addEventListener('submit', uploadJson);
 //MappShizzle
 var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; OpenStreetMap'});
 var stadia = L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {maxZoom: 20, attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'});
-var map = L.map('map', {center: [39.73, -104.99], zoom: config.ZoomLevel, zoomDelta: 0.7, zoomSnap: 1, center: new L.latLng([config.Longitude,config.Latitude]), layers: [stadia, osm] });
+var map = L.map('map', {center: [39.73, -104.99], zoom: config.ZoomLevel, zoomDelta: 0.7, zoomSnap: 1, center: new L.latLng([config.Longitude,config.Latitude])});
 osm.addTo(map);
 
 var baseMaps = { "OpenStreetMap": osm, "Stadia Maps": stadia };
@@ -58,6 +58,16 @@ var layerControl = L.control.layers(baseMaps).addTo(map);
 //var listOfPolygons = Array();
 //var activePolygon
 
+//50.40675, 30.53378
+var one = 50.40675
+var two = 30.53378
+
+var latlngs = [
+    [one, two],
+    [one + 0.00100, two + 0.00100]
+];
+
+var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
 
 initVariable();
 

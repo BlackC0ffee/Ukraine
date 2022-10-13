@@ -8,3 +8,7 @@ To run it. Install Docker and run the container from inside the root folder of t
 
 ```docker run -d -p 80:80 -v $(pwd)/Map:/usr/share/nginx/html nginx```
 
+## Tools
+
+**Snapping:** If "ON", the closest existing polygon will be chosen
+![alt](Media/Snapping.webp)

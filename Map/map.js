@@ -1,5 +1,10 @@
 function onMapClick(e) {
-    pol.push([e.latlng.lat,e.latlng.lng])
+    if(snapping){
+        latlng = findClosetNode(e);
+        pol.push([latlng.lat,latlng.lng]);
+    }else{
+        pol.push([e.latlng.lat,e.latlng.lng]);
+    }
     generateActivePolygon(pol);
 }
 
@@ -7,6 +12,7 @@ function initVariable(){
     globalThis.pol = new Array();
     globalThis.listOfPolygons = new Array();
     globalThis.activePolygon
+    globalThis.snapping = false;
 }
 
 function newPolygonEvent() {
@@ -20,9 +26,48 @@ function newPolygonEvent() {
     newPolygon(name, colorOptions.value)
 }
 
+function findClosetNode(e){
+    let smallestLat = 100;
+    let smallestLng = 100;
+    let diffLat;
+    let diffLng;
+    let closestNode;
+    listOfPolygons.forEach(element => {
+        if(activePolygon.id != element.id){ //skip its own polygon
+            let latLngs = element.polygon.getLatLngs();
+            latLngs[0].forEach(element => {
+                diffLat = Math.abs(element.lat - e.latlng.lat);
+                diffLng = Math.abs(element.lng - e.latlng.lng);
+                if(smallestLat > diffLat && smallestLng > diffLng){
+                    console.log(smallestLat + "<-" + diffLat );
+                    console.log(smallestLng + "<-" + diffLng );
+                    smallestLat = diffLat;
+                    smallestLng = diffLng
+                    closestNode = element;
+                }
+            });
+        }
+    });
+    return { lat: closestNode.lat, lng: closestNode.lng}
+}
+
+//controls
+
 function undoButtonClick(e){
     pol.pop();
     generateActivePolygon(pol);
+}
+
+function snapButtonCick(e){
+    currentvalue = e.value;
+    if(currentvalue == "Off"){
+      e.value="On";
+      globalThis.snapping = true;
+      snapping = true;
+    }else{
+      e.value="Off";
+      globalThis.snapping = false;
+    }
 }
 
 function generateActivePolygon(cordinates){
@@ -165,7 +210,7 @@ function uploadJson(e){
 function redrawPolygons() {
     let a = document.getElementById("a");
     let reader = new FileReader();
-    listOfPolygons.forEach(element => {
+    listOfPolygons.forEach(element => { //TODO move to initVariable + add optional expection for blob (a.href), then use it as reset function
         element.polygon.remove();
     });
     initVariable();

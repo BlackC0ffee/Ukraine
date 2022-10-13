@@ -24,7 +24,7 @@
         <option value="#C80000">Russia</option>
     </select>  
     <!--<input type="color" name="inputColor">-->
-    Add: <button id="newPolygon" onclick="">New Polygon</button> | <button id="undoButton" onclick="undoButtonClick()">Undo</button> | <button id="redrawButton" onclick="redrawPolygons()">Redraw</button>
+    Add: <button id="newPolygon" onclick="">New Polygon</button> | <button id="undoButton" onclick="undoButtonClick()">Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);"> | <button id="redrawButton" onclick="redrawPolygons()">Redraw</button>
 </div>
 <div>
     <select id="PolygonsList" size="3" onChange="makePolygonActive(this)";></select> <button id="removeSelected" onclick="RemoveSelected(activePolygon)">Remove Polygon</button> | Stroke: <input type="button" value="On" id="strokeButton" onclick="stroke(this);"> | Select Polygon: <input type="button" value="Off" id="selectPolygonButton" onclick="selectPolygonOnOff(this);">

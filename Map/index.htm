@@ -13,6 +13,12 @@
 <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>  
 </head>
 <body>
+<div id="sidebar">
+    <div id="menuButtonDiv"><button type="button" id="menuButton">>></button></div>
+    <div class="menuDiv">
+        Selection mode: <button type="button" id="selectPolygonButton">Off</button>
+    </div>
+</div>
 <div id="map"></div>
 <textarea id="OutputBox" rows="5" cols="50"></textarea> <button id="Save" onclick="exportData(listOfPolygons, 'test.json', 'text/plain')">Generate files</button> <a href="" id="a">click here to download your file</a> | 
 <hr>
@@ -43,6 +49,8 @@
 //Events
 document.getElementById("newPolygon").addEventListener("click", newPolygonEvent);
 document.getElementById("upload").addEventListener('submit', uploadJson);
+document.getElementById("menuButton").addEventListener('click', sidebarToggle);
+document.getElementById("selectPolygonButton").addEventListener('click', selectPolygonOnOff);
 
 //Functions
 
@@ -72,6 +80,24 @@ var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
 initVariable();
 
 map.on('click', onMapClick);
+
+function sidebarToggle(e) {
+    if(document.getElementById("sidebar").style.width == "250px"){
+        document.getElementById("sidebar").style.width = "50px";
+        document.getElementById("map").style.marginLeft = "50px";
+/*         document.querySelectorAll('.menuDiv').forEach(element => {
+            element.style.display = "none";
+        }); */
+        e.currentTarget.textContent = ">>";
+    }else{
+        document.getElementById("sidebar").style.width = "250px";
+        document.getElementById("map").style.marginLeft = "250px";
+/*         document.querySelectorAll('.menuDiv').forEach(element => {
+            element.style.display = "block";
+        }); */
+        e.currentTarget.textContent = "<<";
+    }
+}
 
 </script>
 </body>

@@ -1,5 +1,39 @@
-#map { height: 950px; }
+#map {
+    height: 950px;
+    margin-left: 50px;
+    transition: 0.5s;
+}
 
 .leaflet-container.crosshair-cursor-enabled {
     cursor:crosshair;
+}
+
+#sidebar {
+    height: 100%;
+    width: 50px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 10px;
+    transition: 0.5s;
+}
+
+#menuButton{
+    float:right;
+    margin-right: 10px;
+}
+
+#menuButtonDiv{
+    overflow: auto;
+    margin-bottom: 15px;
+}
+
+.menuDiv{
+    float:left;
+    overflow-x: hidden;
+    color: azure;
+    width: 200px;
 }

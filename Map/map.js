@@ -26,7 +26,7 @@ function newPolygonEvent() {
     newPolygon(name, colorOptions.value)
 }
 
-function findClosetNode(e){
+function findClosetNode(e){ // BROKEN, needs to be replaced with a distance to nodes
     let smallestLat = 100;
     let smallestLng = 100;
     let diffLat;
@@ -260,14 +260,13 @@ function stroke(e){
   }
   
   function selectPolygonOnOff(e){
-      currentvalue = e.value;
-      if(currentvalue == "Off"){
-          e.value="On";
-          map.off('click', onMapClick);
+      if(e.currentTarget.textContent == "Off"){
+        e.currentTarget.textContent = "On";
+        map.off('click', onMapClick);
       }else{
-          e.value="Off";
-          map.on('click', onMapClick);
-          activePolygon.polygon.setStyle({stroke: false})
+        e.currentTarget.textContent = "Off";
+        map.on('click', onMapClick);
+        activePolygon.polygon.setStyle({stroke: false})
       }
   }
   

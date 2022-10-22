@@ -19,6 +19,7 @@
     overflow-x: hidden;
     padding-top: 10px;
     transition: 0.5s;
+    color: azure;
 }
 
 #menuButton{
@@ -34,6 +35,5 @@
 .menuDiv{
     float:left;
     overflow-x: hidden;
-    color: azure;
     width: 200px;
 }

@@ -18,6 +18,13 @@
     <div class="menuDiv">
         Selection mode: <button type="button" id="selectPolygonButton">Off</button>
     </div>
+    <div>
+        <form id="upload">
+            <label for="file">File to upload</label>
+            <input type="file" id="file" accept=".json">
+            <button type="submit">Upload</button>
+        </form>
+    </div>
 </div>
 <div id="map"></div>
 <textarea id="OutputBox" rows="5" cols="50"></textarea> <button id="Save" onclick="exportData(listOfPolygons, 'test.json', 'text/plain')">Generate files</button> <a href="" id="a">click here to download your file</a> | 
@@ -35,14 +42,14 @@
 <div>
     <select id="PolygonsList" size="3" onChange="makePolygonActive(this)";></select> <button id="removeSelected" onclick="RemoveSelected(activePolygon)">Remove Polygon</button> | Stroke: <input type="button" value="On" id="strokeButton" onclick="stroke(this);"> | Select Polygon: <input type="button" value="Off" id="selectPolygonButton" onclick="selectPolygonOnOff(this);">
 </div>
-<div>
+<!-- <div>
     <form id="upload">
         <label for="file">File to upload</label>
         <input type="file" id="file" accept=".json">
     
         <button>Upload</button>
     </form>
-</div>
+</div> -->
 <script>
 
 

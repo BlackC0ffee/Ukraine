@@ -8,7 +8,12 @@ function onMapClick(e) {
     generateActivePolygon(pol);
 }
 
-function initVariable(){
+function initVariable(){ //add optional expection for blob (a.href), then use it as reset function
+    if(globalThis.listOfPolygons){
+        globalThis.listOfPolygons.forEach(element => { 
+            element.polygon.remove();
+        });
+    }
     globalThis.pol = new Array();
     globalThis.listOfPolygons = new Array();
     globalThis.activePolygon
@@ -197,6 +202,7 @@ function importJsonData(JsonData){
 }
 
 function uploadJson(e){
+    initVariable(); //renew everything
     //https://gomakethings.com/how-to-upload-and-process-a-json-file-with-vanilla-js/
     e.preventDefault();
 	if (!file.value.length) return;
@@ -210,9 +216,7 @@ function uploadJson(e){
 function redrawPolygons() {
     let a = document.getElementById("a");
     let reader = new FileReader();
-    listOfPolygons.forEach(element => { //TODO move to initVariable + add optional expection for blob (a.href), then use it as reset function
-        element.polygon.remove();
-    });
+
     initVariable();
     fetch(a.href).then(res => res.blob()).then(blob => {
         //reader.readAsDataURL(blob);

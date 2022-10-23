@@ -127,9 +127,9 @@ function DisableCrosshair(){
     L.DomUtil.removeClass(map._container,'crosshair-cursor-enabled');
 }
 
-function makePolygonActive(e){
+function makePolygonActive(polygonId){
     for (let index = 0; index < listOfPolygons.length; index++) {
-        if(listOfPolygons[index].id == e.value){
+        if(listOfPolygons[index].id == polygonId){
             activePolygon = listOfPolygons[index]
             pol = new Array();
             activePolygon.polygon._latlngs[0].forEach(element => { //TODO: replace with method getLatLngs()
@@ -140,8 +140,9 @@ function makePolygonActive(e){
             }else{
                 document.getElementById("strokeButton").value = "Off"
             }
-            document.getElementById("polygonName").value = activePolygon.name
-                       
+
+            document.getElementById("activePolygonName").value = activePolygon.name
+                
             generateActivePolygon();
             EnableCrosshair();
         }     
@@ -190,7 +191,7 @@ function importJsonData(JsonData){
     innerArray.forEach(element => {
         var innerPolygon = {id: element.id, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color, stroke: false}).addTo(map) }
         innerPolygon.polygon.on({
-            dblclick: selectPolygon
+            dblclick: dblclickOnPolygonEvent //FIX: should be called when creating the polygon I guess, not only when uploading/redrawing the polygons
         })
         //innerPolygon.polygon.on('click', alertTest(e));
         listOfPolygons.push(innerPolygon);
@@ -228,27 +229,7 @@ function redrawPolygons() {
     //TODO activate the last active polygon (if possible)
 }
 
-function selectPolygon(e){
-    var layer=e.target;
-    listOfPolygons.forEach(element => {
-        var p = element.polygon
-        if(layer == p){
-            activePolygon = element;
-            pol = new Array();
-            activePolygon.polygon._latlngs[0].forEach(element => { //TODO: replace with method getLatLngs()
-                pol.push([element.lat,element.lng])
-            });
-            if(activePolygon.polygon.options.stroke){
-                document.getElementById("strokeButton").value = "On"
-            }else{
-                document.getElementById("strokeButton").value = "Off"
-            }
-            document.getElementById("polygonName").value = activePolygon.name
-                       
-            generateActivePolygon();
-        }
-    });
-}
+
 
 
 
@@ -263,19 +244,45 @@ function stroke(e){
     }
   }
   
-  function selectPolygonOnOff(e){
-      if(e.currentTarget.textContent == "Off"){
-        e.currentTarget.textContent = "On";
-        map.off('click', onMapClick);
-      }else{
-        e.currentTarget.textContent = "Off";
-        map.on('click', onMapClick);
-        activePolygon.polygon.setStyle({stroke: false})
-      }
-  }
-  
+function selectPolygonOnOff(e){
+    if(e.currentTarget.textContent == "Off"){
+    e.currentTarget.textContent = "On";
+    map.off('click', onMapClick);
+    }else{
+    e.currentTarget.textContent = "Off";
+    map.on('click', onMapClick);
+    activePolygon.polygon.setStyle({stroke: false})
+    }
+}
 
-//button functions
+function getRenamePrompt(e) {
+    let currentActiveName = document.getElementById('activePolygonName').value
+    if(! currentActiveName){
+        let name = prompt("Rename Polygon", currentActiveName);
+        if(!name){
+            //get id of current active polygon and change the name
+        }
+    }
+}
+
+function changeColor(){
+    document.getElementById('changeColorDiv').style.display = 'block';
+}
+
+//EventHandlers
+function dblclickOnPolygonEvent(e){
+    let layer=e.target;
+    listOfPolygons.forEach(element => {
+        let p = element.polygon
+        if(layer == p){
+            makePolygonActive(element.id);
+        }
+    });
+}
+
+function polygonSelectObjectChange(){
+    makePolygonActive(this.options[this.selectedIndex].value);
+}
 
 
 //latlng: v

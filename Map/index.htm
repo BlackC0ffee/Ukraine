@@ -19,6 +19,17 @@
         Selection mode: <button type="button" id="selectPolygonButton">Off</button>
     </div>
     <div>
+        <p>Active Polygon: <input type="text" id="activePolygonName" readonly="readonly" /></p>
+        <p><button type="button" id="renameButton">Rename</button> | <button type="button" id="changeColorButton">Change Color</button></p>
+    </div>
+    <div id="changeColorDiv">
+        Change Side / color : <select id="colorList">
+            <option value="#FFB400" id="Contested">Contested</option>
+            <option value="#004BFF" id="Ukraine">Ukraine</option>  
+            <option value="#C80000" id="Russia">Russia</option>
+        </select> <button type="button" id="saveColor">Save</button>
+    </div>
+    <div>
         <form id="upload">
             <label for="file">File to upload</label>
             <input type="file" id="file" accept=".json">
@@ -35,12 +46,12 @@
         <option value="#FFB400">Contested</option>
         <option value="#004BFF">Ukraine</option>  
         <option value="#C80000">Russia</option>
-    </select>  
+    </select> 
     <!--<input type="color" name="inputColor">-->
     Add: <button id="newPolygon" onclick="">New Polygon</button> | <button id="undoButton" onclick="undoButtonClick()">Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);"> | <button id="redrawButton" onclick="redrawPolygons()">Redraw</button>
 </div>
 <div>
-    <select id="PolygonsList" size="3" onChange="makePolygonActive(this)";></select> <button id="removeSelected" onclick="RemoveSelected(activePolygon)">Remove Polygon</button> | Stroke: <input type="button" value="On" id="strokeButton" onclick="stroke(this);"> | Select Polygon: <input type="button" value="Off" id="selectPolygonButton" onclick="selectPolygonOnOff(this);">
+    <select id="PolygonsList" size="3"></select> <button id="removeSelected" onclick="RemoveSelected(activePolygon)">Remove Polygon</button> | Stroke: <input type="button" value="On" id="strokeButton" onclick="stroke(this);"> | Select Polygon: <input type="button" value="Off" id="selectPolygonButton" onclick="selectPolygonOnOff(this);">
 </div>
 <!-- <div>
     <form id="upload">
@@ -58,6 +69,9 @@ document.getElementById("newPolygon").addEventListener("click", newPolygonEvent)
 document.getElementById("upload").addEventListener('submit', uploadJson);
 document.getElementById("menuButton").addEventListener('click', sidebarToggle);
 document.getElementById("selectPolygonButton").addEventListener('click', selectPolygonOnOff);
+document.getElementById("renameButton").addEventListener('click', getRenamePrompt);
+document.getElementById("changeColorButton").addEventListener('click', changeColor);
+document.getElementById("PolygonsList").addEventListener('change', polygonSelectObjectChange);
 
 //Functions
 

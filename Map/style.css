@@ -25,15 +25,44 @@
 #menuButton{
     float:right;
     margin-right: 10px;
+    float: none;
 }
 
 #menuButtonDiv{
     overflow: auto;
     margin-bottom: 15px;
+    width: 40px !important;
+    float: right !important;
+    border: none !important;
 }
 
 .menuDiv{
     float:left;
     overflow-x: hidden;
-    width: 200px;
+}
+
+#sidebar div {
+    float: left;
+    overflow-x: hidden;
+    width: 250px;
+    border-bottom: 1px azure solid;
+    padding: 3px;
+}
+
+
+
+#contested {
+    background-color: #FFB400;
+}
+
+#Ukraine{
+    background-color: #004BFF;
+}
+
+#Russia{
+    background-color: #C80000;
+}
+
+#changeColorDiv{
+    display: none;
 }

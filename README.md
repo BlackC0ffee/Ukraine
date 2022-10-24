@@ -10,5 +10,15 @@ To run it. Install Docker and run the container from inside the root folder of t
 
 ## Tools
 
+**Select mode** If "ON" nothing can be edited on the map and a double click causes the polygon to be selected.
+
+**Change Color** Provides an option to change the 'color' and side on the map.
+1. Make sure an Active Polygon is selected (you can use Select mode if needed)
+2. Click **Change Color**
+3. Select the side or color
+4. Click **Save**
+
+### Edit mode
+
 **Snapping:** If "ON", the closest existing polygon will be chosen
 ![alt](Media/Snapping.webp)

@@ -16,8 +16,9 @@ function initVariable(){ //add optional expection for blob (a.href), then use it
     }
     globalThis.pol = new Array();
     globalThis.listOfPolygons = new Array();
-    globalThis.activePolygon
+    globalThis.activePolygon = '';
     globalThis.snapping = false;
+    globalThis.currentDate = new Date().toJSON().slice(0, 10);
 }
 
 function newPolygonEvent() {
@@ -81,7 +82,6 @@ function generateActivePolygon(cordinates){
     activePolygon.polygon.setLatLngs(cordinates);
 
     // generate Export Datya
-    let currentDate = new Date().toJSON().slice(0, 10);
     exportData(listOfPolygons, currentDate + '.json', 'text/plain');
 }
 
@@ -198,7 +198,6 @@ function importJsonData(JsonData){
         
     });
     BuildPolygonList();
-    let currentDate = new Date().toJSON().slice(0, 10);
     exportData(listOfPolygons, currentDate + '.json', 'text/plain');
 }
 
@@ -266,6 +265,16 @@ function getRenamePrompt(e) {
 }
 
 function changeColor(){
+    if(!activePolygon){
+        alert("There is currently no Active Polygon");
+        return;
+    }
+    let colorOptions = document.getElementById('changeColorList');
+    for (var i=0; i<colorOptions.length; i++){
+        if(colorOptions.options[i].value == activePolygon.polygon.options.color){
+            colorOptions.options[i].selected = true;
+        }   
+    }
     document.getElementById('changeColorDiv').style.display = 'block';
 }
 
@@ -282,6 +291,17 @@ function dblclickOnPolygonEvent(e){
 
 function polygonSelectObjectChange(){
     makePolygonActive(this.options[this.selectedIndex].value);
+}
+
+function updateColor(){
+    if(!activePolygon){
+        alert("There is currently no Active Polygon");
+        return;
+    }
+    let colorOptions = document.getElementById('changeColorList');
+    activePolygon.polygon.setStyle({color: colorOptions.value});
+    exportData(listOfPolygons, currentDate + '.json', 'text/plain');
+    document.getElementById('changeColorDiv').style.display = 'none';
 }
 
 

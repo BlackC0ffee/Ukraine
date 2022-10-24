@@ -23,11 +23,13 @@
         <p><button type="button" id="renameButton">Rename</button> | <button type="button" id="changeColorButton">Change Color</button></p>
     </div>
     <div id="changeColorDiv">
-        Change Side / color : <select id="colorList">
-            <option value="#FFB400" id="Contested">Contested</option>
-            <option value="#004BFF" id="Ukraine">Ukraine</option>  
-            <option value="#C80000" id="Russia">Russia</option>
-        </select> <button type="button" id="saveColor">Save</button>
+        <form name="changeColor">
+            Change Side / color : <select id="changeColorList">
+                <option value="#FFB400" id="Contested">Contested</option>
+                <option value="#004BFF" id="Ukraine">Ukraine</option>  
+                <option value="#C80000" id="Russia">Russia</option>
+            </select> <button type="button" id="saveColor">Save</button>
+        </form>
     </div>
     <div>
         <form id="upload">
@@ -72,6 +74,8 @@ document.getElementById("selectPolygonButton").addEventListener('click', selectP
 document.getElementById("renameButton").addEventListener('click', getRenamePrompt);
 document.getElementById("changeColorButton").addEventListener('click', changeColor);
 document.getElementById("PolygonsList").addEventListener('change', polygonSelectObjectChange);
+document.getElementById("saveColor").addEventListener('click', updateColor);
+
 
 //Functions
 

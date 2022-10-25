@@ -33,22 +33,17 @@ function newPolygonEvent() {
 }
 
 function findClosetNode(e){ // BROKEN, needs to be replaced with a distance to nodes
-    let smallestLat = 100;
-    let smallestLng = 100;
-    let diffLat;
-    let diffLng;
     let closestNode;
+    let distance;
+    let smallestDistance = 40000000;
+
     listOfPolygons.forEach(element => {
         if(activePolygon.id != element.id){ //skip its own polygon
             let latLngs = element.polygon.getLatLngs();
             latLngs[0].forEach(element => {
-                diffLat = Math.abs(element.lat - e.latlng.lat);
-                diffLng = Math.abs(element.lng - e.latlng.lng);
-                if(smallestLat > diffLat && smallestLng > diffLng){
-                    console.log(smallestLat + "<-" + diffLat );
-                    console.log(smallestLng + "<-" + diffLng );
-                    smallestLat = diffLat;
-                    smallestLng = diffLng
+                distance = e.latlng.distanceTo(element);
+                if(smallestDistance > distance){
+                    smallestDistance = distance;
                     closestNode = element;
                 }
             });

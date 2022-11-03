@@ -21,6 +21,7 @@
     <div>
         <p>Active Polygon: <input type="text" id="activePolygonName" readonly="readonly" /></p>
         <p><button type="button" id="renameButton">Rename</button> | <button type="button" id="changeColorButton">Change Color</button></p>
+        <p><button type="button" id="newPolygonButton">New Polygon</button> | </p>
     </div>
     <div id="changeColorDiv">
         <form name="changeColor">
@@ -31,26 +32,34 @@
             </select> <button type="button" id="saveColor">Save</button>
         </form>
     </div>
+    <div id="addNewPolygon">
+        <p>Name: <input type="text" name="polygonName" id="polygonName"></p>
+        <p></p>Color: <select id="colorList">
+            <option value="#FFB400">Contested</option>
+            <option value="#004BFF">Ukraine</option>  
+            <option value="#C80000">Russia</option>
+        </select><p>
+        <p><button id="newPolygon" onclick="">Add Polygon</button> | <button id="undoButton" onclick="undoButtonClick()">Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);"> | </p>
+    </div>
     <div>
         <form id="upload">
             <label for="file">File to upload</label>
             <input type="file" id="file" accept=".json">
             <button type="submit">Upload</button>
         </form>
+        <p><button id="redrawButton" onclick="redrawPolygons()">Redraw</button></p>
+    </div>
+    <div>
+        <pre id="stats"></pre>
     </div>
 </div>
 <div id="map"></div>
 <textarea id="OutputBox" rows="5" cols="50"></textarea> <button id="Save" onclick="exportData(listOfPolygons, 'test.json', 'text/plain')">Generate files</button> <a href="" id="a">click here to download your file</a> | 
 <hr>
 <div>
-    Name: <input type="text" name="polygonName" id="polygonName">
-    Color: <select id="colorList">
-        <option value="#FFB400">Contested</option>
-        <option value="#004BFF">Ukraine</option>  
-        <option value="#C80000">Russia</option>
-    </select> 
+
     <!--<input type="color" name="inputColor">-->
-    Add: <button id="newPolygon" onclick="">New Polygon</button> | <button id="undoButton" onclick="undoButtonClick()">Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);"> | <button id="redrawButton" onclick="redrawPolygons()">Redraw</button>
+    
 </div>
 <div>
     <select id="PolygonsList" size="3"></select> <button id="removeSelected" onclick="RemoveSelected(activePolygon)">Remove Polygon</button> | Stroke: <input type="button" value="On" id="strokeButton" onclick="stroke(this);"> | Select Polygon: <input type="button" value="Off" id="selectPolygonButton" onclick="selectPolygonOnOff(this);">
@@ -75,6 +84,7 @@ document.getElementById("renameButton").addEventListener('click', getRenamePromp
 document.getElementById("changeColorButton").addEventListener('click', changeColor);
 document.getElementById("PolygonsList").addEventListener('change', polygonSelectObjectChange);
 document.getElementById("saveColor").addEventListener('click', updateColor);
+document.getElementById('newPolygonButton').addEventListener('click', newPolygonButtonEvent)
 
 
 //Functions

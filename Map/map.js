@@ -78,6 +78,7 @@ function generateActivePolygon(cordinates){
 
     // generate Export Datya
     exportData(listOfPolygons, currentDate + '.json', 'text/plain');
+    
 }
 
 function newPolygon(name, color){
@@ -100,6 +101,10 @@ function BuildPolygonList(){
         opt.value = listOfPolygons[index].id; //Index might be better
         list.options.add(opt);
     }
+
+    //Stats
+    stats = document.getElementById('stats');
+    stats.textContent = "Number of Polygons: " + globalThis.listOfPolygons.length
 }
 
 function RemoveSelected(e){
@@ -166,7 +171,7 @@ function exportData(polygonList, name, type) {
     var jsobObj = new Array();
     // = {id: activePolygon.id, name: activePolygon.name, polygonCordinates:activePolygon.polygon.getLatLngs(), color: activePolygon.polygon.options['color']}
     polygonList.forEach(element => {
-        jsobObj.push({id: element.id, name: element.name, polygonCordinates:element.polygon.getLatLngs(), color: element.polygon.options['color']})
+        jsobObj.push({id: element.id, name: element.name, polygonCordinates:element.polygon.getLatLngs(), color: element.polygon.options['color'], stroke: element.polygon.options['stroke']})
     });
     
     var jsonout = JSON.stringify(jsobObj);
@@ -184,7 +189,10 @@ function importJsonData(JsonData){
     var innerArray = JSON.parse(JsonData);
     listOfPolygons = Array();
     innerArray.forEach(element => {
-        var innerPolygon = {id: element.id, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color, stroke: false}).addTo(map) }
+        if(!element.stroke){
+            element.stroke = false;
+        }
+        var innerPolygon = {id: element.id, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color, stroke: element.stroke}).addTo(map) }
         innerPolygon.polygon.on({
             dblclick: dblclickOnPolygonEvent //FIX: should be called when creating the polygon I guess, not only when uploading/redrawing the polygons
         })
@@ -223,10 +231,6 @@ function redrawPolygons() {
     //TODO activate the last active polygon (if possible)
 }
 
-
-
-
-
 function stroke(e){
     currentvalue = e.value;
     if(currentvalue == "Off"){
@@ -236,9 +240,23 @@ function stroke(e){
       e.value="Off";
       activePolygon.polygon.setStyle({stroke: false})
     }
+    exportData(listOfPolygons, currentDate + '.json', 'text/plain');
   }
   
 function selectPolygonOnOff(e){
+
+    //Enable =
+        //1. add dblKlik to polygons
+        //2. Set curosr on arrow
+        //3. disable onMapClick
+        //4. Set text of button on On
+
+    //Disable =
+        //1. remove dblKlik to polygons
+        //2. Leave cursor
+        //3. enable onMapClick
+        //4. set Text of button on Off
+
     if(e.currentTarget.textContent == "Off"){
     e.currentTarget.textContent = "On";
     map.off('click', onMapClick);
@@ -297,6 +315,10 @@ function updateColor(){
     activePolygon.polygon.setStyle({color: colorOptions.value});
     exportData(listOfPolygons, currentDate + '.json', 'text/plain');
     document.getElementById('changeColorDiv').style.display = 'none';
+}
+
+function newPolygonButtonEvent(){
+    alert("Todo");
 }
 
 

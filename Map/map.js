@@ -19,6 +19,7 @@ function initVariable(){ //add optional expection for blob (a.href), then use it
     globalThis.activePolygon = '';
     globalThis.snapping = false;
     globalThis.currentDate = new Date().toJSON().slice(0, 10);
+    globalThis.mode = 'select'
 }
 
 function newPolygonEvent() {
@@ -83,10 +84,12 @@ function generateActivePolygon(cordinates){
 
 function newPolygon(name, color){
     pol = new Array();
-    activePolygon = {id: (new Date().getTime()), name: name, polygon: L.polygon(pol, {color: color}).addTo(map) }
+    activePolygon = {id: (new Date().getTime()), name: name, polygon: L.polygon(pol, {color: color, stroke: true}).addTo(map) }
     listOfPolygons.push(activePolygon);
     BuildPolygonList();
     EnableCrosshair();
+    if(document.getElementById("selectPolygonButton").textContent == "On"){ document.getElementById("selectPolygonButton").dispatchEvent(new Event('click')); }
+    if(document.getElementById("strokeButton").value == "Off"){ document.getElementById("strokeButton").dispatchEvent(new Event('click')); }
 }
 
 function BuildPolygonList(){
@@ -193,10 +196,11 @@ function importJsonData(JsonData){
             element.stroke = false;
         }
         var innerPolygon = {id: element.id, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color, stroke: element.stroke}).addTo(map) }
-        innerPolygon.polygon.on({
-            dblclick: dblclickOnPolygonEvent //FIX: should be called when creating the polygon I guess, not only when uploading/redrawing the polygons
-        })
-        //innerPolygon.polygon.on('click', alertTest(e));
+        if (globalThis.mode == 'select'){
+            innerPolygon.polygon.on({
+                dblclick: dblclickOnPolygonEvent //FIX: should be called when creating the polygon I guess, not only when uploading/redrawing the polygons
+            })
+        }
         listOfPolygons.push(innerPolygon);
         
     });
@@ -232,12 +236,12 @@ function redrawPolygons() {
 }
 
 function stroke(e){
-    currentvalue = e.value;
+    currentvalue = e.currentTarget.value;
     if(currentvalue == "Off"){
-      e.value="On";
+      e.currentTarget.value="On";
       activePolygon.polygon.setStyle({stroke: true})
     }else{
-      e.value="Off";
+      e.currentTarget.value="Off";
       activePolygon.polygon.setStyle({stroke: false})
     }
     exportData(listOfPolygons, currentDate + '.json', 'text/plain');
@@ -258,12 +262,18 @@ function selectPolygonOnOff(e){
         //4. set Text of button on Off
 
     if(e.currentTarget.textContent == "Off"){
-    e.currentTarget.textContent = "On";
-    map.off('click', onMapClick);
+        e.currentTarget.textContent = "On";
+        map.off('click', onMapClick);
+        globalThis.listOfPolygons.forEach(element => {
+            element.polygon.on({ dblclick: dblclickOnPolygonEvent });
+        });
     }else{
-    e.currentTarget.textContent = "Off";
-    map.on('click', onMapClick);
-    activePolygon.polygon.setStyle({stroke: false})
+        e.currentTarget.textContent = "Off";
+        map.on('click', onMapClick);
+        globalThis.listOfPolygons.forEach(element => {
+            element.polygon.off({ dblclick: dblclickOnPolygonEvent });
+        });
+        activePolygon.polygon.setStyle({stroke: false})
     }
 }
 

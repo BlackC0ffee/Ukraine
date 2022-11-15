@@ -16,7 +16,7 @@
 <div id="sidebar">
     <div id="menuButtonDiv"><button type="button" id="menuButton">>></button></div>
     <div class="menuDiv">
-        Selection mode: <button type="button" id="selectPolygonButton">Off</button>
+        Selection mode: <button type="button" id="selectPolygonButton">On</button>
     </div>
     <div>
         <p>Active Polygon: <input type="text" id="activePolygonName" readonly="readonly" /></p>
@@ -62,7 +62,7 @@
     
 </div>
 <div>
-    <select id="PolygonsList" size="3"></select> <button id="removeSelected" onclick="RemoveSelected(activePolygon)">Remove Polygon</button> | Stroke: <input type="button" value="On" id="strokeButton" onclick="stroke(this);"> | Select Polygon: <input type="button" value="Off" id="selectPolygonButton" onclick="selectPolygonOnOff(this);">
+    <select id="PolygonsList" size="3"></select> <button id="removeSelected" onclick="RemoveSelected(activePolygon)">Remove Polygon</button> | Stroke: <input type="button" value="On" id="strokeButton"> | Select Polygon: <input type="button" value="Off" id="selectPolygonButton" onclick="selectPolygonOnOff(this);">
 </div>
 <!-- <div>
     <form id="upload">
@@ -85,6 +85,7 @@ document.getElementById("changeColorButton").addEventListener('click', changeCol
 document.getElementById("PolygonsList").addEventListener('change', polygonSelectObjectChange);
 document.getElementById("saveColor").addEventListener('click', updateColor);
 document.getElementById('newPolygonButton').addEventListener('click', newPolygonButtonEvent)
+document.getElementById('strokeButton').addEventListener('click', stroke)
 
 
 //Functions
@@ -114,7 +115,7 @@ var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
 
 initVariable();
 
-map.on('click', onMapClick);
+//map.on('click', onMapClick);
 
 function sidebarToggle(e) {
     if(document.getElementById("sidebar").style.width == "250px"){

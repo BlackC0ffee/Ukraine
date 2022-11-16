@@ -21,6 +21,7 @@
     <div>
         <p>Active Polygon: <input type="text" id="activePolygonName" readonly="readonly" /></p>
         <p><button type="button" id="renameButton">Rename</button> | <button type="button" id="changeColorButton">Change Color</button></p>
+        <p>Stroke: <input type="button" value="On" id="strokeButton"></p>
         <p><button type="button" id="newPolygonButton">New Polygon</button> | </p>
     </div>
     <div id="changeColorDiv">
@@ -62,7 +63,7 @@
     
 </div>
 <div>
-    <select id="PolygonsList" size="3"></select> <button id="removeSelected" onclick="RemoveSelected(activePolygon)">Remove Polygon</button> | Stroke: <input type="button" value="On" id="strokeButton"> | Select Polygon: <input type="button" value="Off" id="selectPolygonButton" onclick="selectPolygonOnOff(this);">
+    <select id="PolygonsList" size="3"></select> <button id="removeSelected" onclick="RemoveSelected(activePolygon)">Remove Polygon</button>
 </div>
 <!-- <div>
     <form id="upload">

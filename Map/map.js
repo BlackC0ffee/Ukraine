@@ -107,7 +107,11 @@ function BuildPolygonList(){
 
     //Stats
     stats = document.getElementById('stats');
-    stats.textContent = "Number of Polygons: " + globalThis.listOfPolygons.length
+    nodecounter = 0
+    globalThis.listOfPolygons.forEach(element => {
+        nodecounter += element.polygon._latlngs[0].length;
+    });
+    stats.textContent = "Number of Polygons: " + globalThis.listOfPolygons.length + "\rNumber of nodes: " + nodecounter;
 }
 
 function RemoveSelected(e){

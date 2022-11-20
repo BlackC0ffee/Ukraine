@@ -40,7 +40,7 @@
             <option value="#004BFF">Ukraine</option>  
             <option value="#C80000">Russia</option>
         </select><p>
-        <p><button id="newPolygon" onclick="">Add Polygon</button> | <button id="undoButton" onclick="undoButtonClick()">Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);"> | </p>
+        <p><button id="newPolygon" onclick="">Add Polygon</button> | <button id="undoButton">Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);"> | </p>
     </div>
     <div>
         <form id="upload">
@@ -50,29 +50,17 @@
         </form>
         <p><button id="redrawButton" onclick="redrawPolygons()">Redraw</button></p>
     </div>
-    <div>
-        <pre id="stats"></pre>
+    <div id="stats">
+        
     </div>
 </div>
 <div id="map"></div>
 <textarea id="OutputBox" rows="5" cols="50"></textarea> <button id="Save" onclick="exportData(listOfPolygons, 'test.json', 'text/plain')">Generate files</button> <a href="" id="a">click here to download your file</a> | 
 <hr>
 <div>
-
-    <!--<input type="color" name="inputColor">-->
-    
-</div>
-<div>
     <select id="PolygonsList" size="3"></select> <button id="removeSelected" onclick="RemoveSelected(activePolygon)">Remove Polygon</button>
 </div>
-<!-- <div>
-    <form id="upload">
-        <label for="file">File to upload</label>
-        <input type="file" id="file" accept=".json">
-    
-        <button>Upload</button>
-    </form>
-</div> -->
+
 <script>
 
 
@@ -87,6 +75,7 @@ document.getElementById("PolygonsList").addEventListener('change', polygonSelect
 document.getElementById("saveColor").addEventListener('click', updateColor);
 document.getElementById('newPolygonButton').addEventListener('click', newPolygonButtonEvent)
 document.getElementById('strokeButton').addEventListener('click', stroke)
+document.getElementById('undoButton').addEventListener('click', undoButtonClick)
 
 
 //Functions

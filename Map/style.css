@@ -66,3 +66,7 @@
 #changeColorDiv{
     display: none;
 }
+
+#stats{
+    font-family: Consolas,Menlo,"courier new",monospace;
+}

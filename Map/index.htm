@@ -22,7 +22,7 @@
         <p>Active Polygon: <input type="text" id="activePolygonName" readonly="readonly" /></p>
         <p><button type="button" id="renameButton">Rename</button> | <button type="button" id="changeColorButton">Change Color</button></p>
         <p>Stroke: <input type="button" value="On" id="strokeButton"></p>
-        <p><button type="button" id="newPolygonButton">New Polygon</button> | </p>
+        <p><button type="button" id="newPolygonButton">New Polygon</button> | <button id="removeActivePolygonButton">Remove Polygon</button></p>
     </div>
     <div id="changeColorDiv">
         <form name="changeColor">
@@ -48,21 +48,19 @@
             <input type="file" id="file" accept=".json">
             <button type="submit">Upload</button>
         </form>
+        <p><a href="" id="a">Download File</a></p>
         <p><button id="redrawButton" onclick="redrawPolygons()">Redraw</button></p>
     </div>
     <div id="stats">
         
     </div>
+    <div id="debugDiv">
+        <textarea id="OutputBox" rows="5" cols="29"></textarea> 
+        <select id="PolygonsList" size="10"></select>
+    </div>
 </div>
 <div id="map"></div>
-<textarea id="OutputBox" rows="5" cols="50"></textarea> <button id="Save" onclick="exportData(listOfPolygons, 'test.json', 'text/plain')">Generate files</button> <a href="" id="a">click here to download your file</a> | 
-<hr>
-<div>
-    <select id="PolygonsList" size="3"></select> <button id="removeSelected" onclick="RemoveSelected(activePolygon)">Remove Polygon</button>
-</div>
-
 <script>
-
 
 //Events
 document.getElementById("newPolygon").addEventListener("click", newPolygonEvent);
@@ -73,9 +71,10 @@ document.getElementById("renameButton").addEventListener('click', getRenamePromp
 document.getElementById("changeColorButton").addEventListener('click', changeColor);
 document.getElementById("PolygonsList").addEventListener('change', polygonSelectObjectChange);
 document.getElementById("saveColor").addEventListener('click', updateColor);
-document.getElementById('newPolygonButton').addEventListener('click', newPolygonButtonEvent)
-document.getElementById('strokeButton').addEventListener('click', stroke)
-document.getElementById('undoButton').addEventListener('click', undoButtonClick)
+document.getElementById('newPolygonButton').addEventListener('click', newPolygonButtonEvent);
+document.getElementById('strokeButton').addEventListener('click', stroke);
+document.getElementById('undoButton').addEventListener('click', undoButtonClick);
+document.getElementById('removeActivePolygonButton').addEventListener('click', RemoveSelected);
 
 
 //Functions

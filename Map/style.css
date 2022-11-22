@@ -70,3 +70,20 @@
 #stats{
     font-family: Consolas,Menlo,"courier new",monospace;
 }
+
+#a:link{
+    color: azure;
+    font-family: Consolas,Menlo,"courier new",monospace;
+}
+
+#a:visited{
+    color: darkred;
+    font-family: Consolas,Menlo,"courier new",monospace;
+}
+
+#debugDiv{
+    position: absolute;
+    bottom: 0px;
+    height: auto;
+    margin-bottom: 10px;
+}

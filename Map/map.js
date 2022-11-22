@@ -114,9 +114,9 @@ function BuildPolygonList(){
     stats.textContent = "Number of Polygons: " + globalThis.listOfPolygons.length + "\rNumber of nodes: " + nodecounter;
 }
 
-function RemoveSelected(e){
+function RemoveSelected(){
     for (let index = 0; index < listOfPolygons.length; index++) {
-        if(listOfPolygons[index].id == e.id){
+        if(listOfPolygons[index].id == globalThis.activePolygon.id){
             listOfPolygons[index].polygon.remove();
             listOfPolygons.splice(index, 1);
         }

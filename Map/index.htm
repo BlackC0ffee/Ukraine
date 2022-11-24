@@ -35,12 +35,14 @@
     </div>
     <div id="addNewPolygon">
         <p>Name: <input type="text" name="polygonName" id="polygonName"></p>
-        <p></p>Color: <select id="colorList">
+        <p>Color: <select id="colorList">
             <option value="#FFB400">Contested</option>
             <option value="#004BFF">Ukraine</option>  
             <option value="#C80000">Russia</option>
-        </select><p>
-        <p><button id="newPolygon" onclick="">Add Polygon</button> | <button id="undoButton">Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);"> | </p>
+        </select> <button id="newPolygon" onclick="">Add Polygon</button></p>
+    </div>
+    <div id="editToolsDiv">
+        <p><button id="undoButton">Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);"> | <button id="doneButton">Done</button></p>
     </div>
     <div>
         <form id="upload">
@@ -49,7 +51,7 @@
             <button type="submit">Upload</button>
         </form>
         <p><a href="" id="a">Download File</a></p>
-        <p><button id="redrawButton" onclick="redrawPolygons()">Redraw</button></p>
+        <p><button id="redrawButton">Redraw</button></p>
     </div>
     <div id="stats">
         
@@ -75,7 +77,8 @@ document.getElementById('newPolygonButton').addEventListener('click', newPolygon
 document.getElementById('strokeButton').addEventListener('click', stroke);
 document.getElementById('undoButton').addEventListener('click', undoButtonClick);
 document.getElementById('removeActivePolygonButton').addEventListener('click', RemoveSelected);
-
+document.getElementById('redrawButton').addEventListener('click', redrawPolygons);
+document.getElementById('doneButton').addEventListener('click', doneButtonEvent);
 
 //Functions
 

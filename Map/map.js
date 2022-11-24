@@ -30,7 +30,9 @@ function newPolygonEvent() {
     }else{
         name = colorOptions[colorOptions.selectedIndex].innerText;
     }
-    newPolygon(name, colorOptions.value)
+    newPolygon(name, colorOptions.value);
+    document.getElementById('addNewPolygon').style.display = 'none';
+    document.getElementById('editToolsDiv').style.display = 'block';
 }
 
 function findClosetNode(e){ // BROKEN, needs to be replaced with a distance to nodes
@@ -332,7 +334,11 @@ function updateColor(){
 }
 
 function newPolygonButtonEvent(){
-    alert("Todo");
+    document.getElementById('addNewPolygon').style.display = 'block';
+}
+
+function doneButtonEvent(){
+    document.getElementById('editToolsDiv').style.display = 'none';
 }
 
 

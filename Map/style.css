@@ -87,3 +87,11 @@
     height: auto;
     margin-bottom: 10px;
 }
+
+#addNewPolygon{
+    display: none;
+}
+
+#editToolsDiv{
+    display: none;
+}

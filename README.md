@@ -1,6 +1,15 @@
-# Ukraine Report - Alpha-One
+# Ukraine Report - Alpha-Two
 
-Welcome to alpha-one. This release provides a buggy but workable version of my mapping application I use to report over the situation in Ukraine. It still requires clean-up of code and allot of features needs to be added.
+
+> This project is depending on Leafletjs, which is created by [Volodymyr Agafonkin](https://agafonkin.com) who lives in Kyiv (Ukraine).
+> If you find the information of this project useful, please consider making a donation to one of the many organisations helping the Ukraine people: [StandWithUkraine]( https://stand-with-ukraine.pp.ua)
+>
+>Thank You
+>
+>[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
+
+
+Welcome to alpha-Two. This release provides a buggy but workable version of my mapping application I use to report over the situation in Ukraine. It still requires clean-up of code and allot of features needs to be added.
 
 Yes, I know the code is a disaster, I’m planning to clean it up -_-
 

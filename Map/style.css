@@ -1,5 +1,97 @@
-#map { height: 950px; }
+#map {
+    height: 950px;
+    margin-left: 50px;
+    transition: 0.5s;
+}
 
 .leaflet-container.crosshair-cursor-enabled {
     cursor:crosshair;
+}
+
+#sidebar {
+    height: 100%;
+    width: 50px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 10px;
+    transition: 0.5s;
+    color: azure;
+}
+
+#menuButton{
+    float:right;
+    margin-right: 10px;
+    float: none;
+}
+
+#menuButtonDiv{
+    overflow: auto;
+    margin-bottom: 15px;
+    width: 40px !important;
+    float: right !important;
+    border: none !important;
+}
+
+.menuDiv{
+    float:left;
+    overflow-x: hidden;
+}
+
+#sidebar div {
+    float: left;
+    overflow-x: hidden;
+    width: 250px;
+    border-bottom: 1px azure solid;
+    padding: 3px;
+}
+
+
+
+#contested {
+    background-color: #FFB400;
+}
+
+#Ukraine{
+    background-color: #004BFF;
+}
+
+#Russia{
+    background-color: #C80000;
+}
+
+#changeColorDiv{
+    display: none;
+}
+
+#stats{
+    font-family: Consolas,Menlo,"courier new",monospace;
+}
+
+#a:link{
+    color: azure;
+    font-family: Consolas,Menlo,"courier new",monospace;
+}
+
+#a:visited{
+    color: darkred;
+    font-family: Consolas,Menlo,"courier new",monospace;
+}
+
+#debugDiv{
+    position: absolute;
+    bottom: 0px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+#addNewPolygon{
+    display: none;
+}
+
+#editToolsDiv{
+    display: none;
 }

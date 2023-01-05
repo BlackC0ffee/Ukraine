@@ -51,7 +51,12 @@ Provides an option to add a "stroke" to the active polygon
 2. Click on the button next to "Stroke" to turn it off and on.
 
 #### New Polygon
-TODO
+1. Click on **New Polygon**
+2. Enter a name in the Name field (this is optional)
+3. Select the Color/Side
+4. Click in **Add Polygon**
+
+You can now start adding the polygon
 
 #### Remove Polygon
 
@@ -59,5 +64,15 @@ Clicking this button will remove the active Polygon without any warning. Use wit
 
 ### Edit mode
 
-**Snapping:** If "ON", the closest existing polygon will be chosen
+#### Undo
+
+Removes the last point of the active polygon
+
+#### Snapping
+
+If "ON", the closest existing polygon will be chosen
 ![alt](Media/Snapping.webp)
+
+#### Done
+
+Stops adding the polygone

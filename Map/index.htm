@@ -19,7 +19,7 @@
     </div>
     <div>
         <p>Active Polygon: <input type="text" id="activePolygonName" readonly="readonly" /></p>
-        <p><button type="button" id="renameButton">Rename</button> | <button type="button" id="changeColorButton">Change Color</button></p>
+        <p><button type="button" id="editButton">Edit</button> | <button type="button" id="renameButton">Rename</button> | <button type="button" id="changeColorButton">Change Color</button></p>
         <p>Stroke: <input type="button" value="On" id="strokeButton"></p>
         <p><button type="button" id="newPolygonButton">New Polygon</button> | <button id="removeActivePolygonButton">Remove Polygon</button></p>
     </div>
@@ -78,6 +78,7 @@ document.getElementById('undoButton').addEventListener('click', undoButtonClick)
 document.getElementById('removeActivePolygonButton').addEventListener('click', RemoveSelected);
 document.getElementById('redrawButton').addEventListener('click', redrawPolygons);
 document.getElementById('doneButton').addEventListener('click', doneButtonEvent);
+document.getElementById('editButton').addEventListener('click', editPolygonButtonEvent);
 
 //Functions
 

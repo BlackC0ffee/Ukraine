@@ -267,19 +267,20 @@ function selectPolygonOnOff(e){
         //3. enable onMapClick
         //4. set Text of button on Off
 
-    if(e.currentTarget.textContent == "Off"){
-        e.currentTarget.textContent = "On";
+    e = document.getElementById('selectPolygonButton');
+    if(e.textContent == "Off"){
+        e.textContent = "On";
         map.off('click', onMapClick);
         globalThis.listOfPolygons.forEach(element => {
             element.polygon.on({ dblclick: dblclickOnPolygonEvent });
         });
     }else{
-        e.currentTarget.textContent = "Off";
+        e.textContent = "Off";
         map.on('click', onMapClick);
         globalThis.listOfPolygons.forEach(element => {
             element.polygon.off({ dblclick: dblclickOnPolygonEvent });
         });
-        activePolygon.polygon.setStyle({stroke: false})
+        //activePolygon.polygon.setStyle({stroke: false})
     }
 }
 
@@ -331,6 +332,12 @@ function updateColor(){
     activePolygon.polygon.setStyle({color: colorOptions.value});
     exportData(listOfPolygons, currentDate + '.json', 'text/plain');
     document.getElementById('changeColorDiv').style.display = 'none';
+}
+
+function editPolygonButtonEvent(){
+    selectPolygonOnOff();
+    EnableCrosshair();
+    document.getElementById('editToolsDiv').style.display = 'block';
 }
 
 function newPolygonButtonEvent(){

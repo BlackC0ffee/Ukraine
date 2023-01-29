@@ -346,6 +346,8 @@ function newPolygonButtonEvent(){
 
 function doneButtonEvent(){
     document.getElementById('editToolsDiv').style.display = 'none';
+    DisableCrosshair();
+    selectPolygonOnOff();
 }
 
 

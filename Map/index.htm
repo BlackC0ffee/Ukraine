@@ -5,6 +5,7 @@
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
     <script src="config.json"></script>
     <Script src="map.js"></Script>
+    <Script src="OsintMap.js"></Script>
     <!--<script src="./plugins/leaflet-search.src.js"></script>-->
     <link rel="stylesheet" href="./style.css" />
             
@@ -22,6 +23,7 @@
         <p><button type="button" id="editButton">Edit</button> | <button type="button" id="renameButton">Rename</button> | <button type="button" id="changeColorButton">Change Color</button></p>
         <p>Stroke: <input type="button" value="On" id="strokeButton"></p>
         <p><button type="button" id="newPolygonButton">New Polygon</button> | <button id="removeActivePolygonButton">Remove Polygon</button></p>
+        <p><button type="button" id="newDistanceButton">New line</button> |
     </div>
     <div id="changeColorDiv">
         <form name="changeColor">
@@ -42,6 +44,10 @@
     </div>
     <div id="editToolsDiv">
         <p><button id="undoButton">Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);"> | <button id="doneButton">Done</button></p>
+    </div>
+    <div id="newDistanceDiv">
+        <p>Name: <input type="text" name="distanceName" id="distanceName"></p>
+        <p>Color: <input type="color" id="distanceColor" name="distanceColor" value="#00FF00"> <button id="newDistanceObject">Add New Distance Line</button></p>
     </div>
     <div>
         <form id="upload">
@@ -79,6 +85,9 @@ document.getElementById('removeActivePolygonButton').addEventListener('click', R
 document.getElementById('redrawButton').addEventListener('click', redrawPolygons);
 document.getElementById('doneButton').addEventListener('click', doneButtonEvent);
 document.getElementById('editButton').addEventListener('click', editPolygonButtonEvent);
+document.getElementById('newDistanceButton').addEventListener('click', newDistanceButton)
+document.getElementById('newDistanceObject').addEventListener('click', newDistanceObjectEvent)
+
 
 //Functions
 
@@ -90,6 +99,12 @@ osm.addTo(map);
 
 var baseMaps = { "OpenStreetMap": osm, "Stadia Maps": stadia };
 var layerControl = L.control.layers(baseMaps).addTo(map);
+
+//////// Osint Playground
+var osintMap = new OsintMap(map);
+osintMap.addNewPolygon('hello', 'red');
+////////
+
 //var pol = new Array();
 //var listOfPolygons = Array();
 //var activePolygon

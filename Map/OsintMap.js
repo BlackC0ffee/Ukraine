@@ -3,6 +3,7 @@ class OsintMap {
     #pol = new Array();
     #listOfPolygons = new Array();
     #activePolygon;
+    #stats
 
     constructor(map) {
         if(map instanceof L.Map){
@@ -26,6 +27,10 @@ class OsintMap {
         }
     }
 
+    set stats(value){
+        this.#stats = value
+    }
+
     #wrapFunction(fn) {
         return (...args) => {
           //this.functionD();
@@ -37,6 +42,7 @@ class OsintMap {
 
     render(){
         console.log('Running render');
+        this.returnStats();
         return true;
     }
 
@@ -52,6 +58,40 @@ class OsintMap {
         //if(document.getElementById("strokeButton").value == "Off"){ document.getElementById("strokeButton").dispatchEvent(new Event('click')); }
     }
 
+    returnStats(){
+        if(this.#stats){
+            const nodecounter = 10
+            // this.#listOfPolygonslistOfPolygons.forEach(element => {
+            //     if(element.polygon){
+            //         nodecounter += element.polygon._latlngs[0].length;
+            //     }
+            // });
+            //stats.textContent = "Number of Polygons: " + globalThis.listOfPolygons.length + "\rNumber of nodes: " + nodecounter; 
+            stats.textContent = "Number of Polygons: " + "\rNumber of nodes: " + nodecounter; 
+        }
+        return true
+        // list = document.getElementById('PolygonsList');
+        // for (i = list.length - 1; i >= 0; i--) {
+        //     list.remove(i);
+        // }
+    
+        // for (let index = 0; index < listOfPolygons.length; index++) {
+        //     opt = document.createElement("option");
+        //     opt.text = listOfPolygons[index].name;
+        //     opt.value = listOfPolygons[index].id; //Index might be better
+        //     list.options.add(opt);
+        // }
+    
+        //Stats
+        // stats = document.getElementById('stats');
+        // nodecounter = 0
+        // globalThis.listOfPolygons.forEach(element => {
+        //     if(element.polygon){
+        //         nodecounter += element.polygon._latlngs[0].length;
+        //     }
+        // });
+        // stats.textContent = "Number of Polygons: " + globalThis.listOfPolygons.length + "\rNumber of nodes: " + nodecounter;
+    }
 
 
   }

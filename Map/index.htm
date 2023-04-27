@@ -102,6 +102,8 @@ var layerControl = L.control.layers(baseMaps).addTo(map);
 
 //////// Osint Playground
 var osintMap = new OsintMap(map);
+osintMap.stats = document.getElementById('stats');
+//osintMap.listOfPolygons = globalThis.listOfPolygons
 osintMap.addNewPolygon('hello', 'red');
 ////////
 

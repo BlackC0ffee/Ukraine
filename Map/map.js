@@ -136,14 +136,14 @@ function BuildPolygonList(){
     }
 
     //Stats
-    stats = document.getElementById('stats');
-    nodecounter = 0
-    globalThis.listOfPolygons.forEach(element => {
-        if(element.polygon){
-            nodecounter += element.polygon._latlngs[0].length;
-        }
-    });
-    stats.textContent = "Number of Polygons: " + globalThis.listOfPolygons.length + "\rNumber of nodes: " + nodecounter;
+    // stats = document.getElementById('stats');
+    // nodecounter = 0
+    // globalThis.listOfPolygons.forEach(element => {
+    //     if(element.polygon){
+    //         nodecounter += element.polygon._latlngs[0].length;
+    //     }
+    // });
+    // stats.textContent = "Number of Polygons: " + globalThis.listOfPolygons.length + "\rNumber of nodes: " + nodecounter;
 }
 
 function RemoveSelected(){

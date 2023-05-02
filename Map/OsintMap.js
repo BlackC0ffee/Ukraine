@@ -3,7 +3,8 @@ class OsintMap {
     #pol = new Array();
     #listOfPolygons = new Array();
     #activePolygon;
-    #stats
+    #stats;
+    #debugDiv;
 
     constructor(map) {
         if(map instanceof L.Map){
@@ -31,6 +32,10 @@ class OsintMap {
         this.#stats = value
     }
 
+    set debugDiv(value){
+        this.#debugDiv = value
+    }
+
     #wrapFunction(fn) {
         return (...args) => {
           //this.functionD();
@@ -43,6 +48,7 @@ class OsintMap {
     render(){
         console.log('Running render');
         this.returnStats();
+        this.updatePolygonList();
         return true;
     }
 
@@ -93,5 +99,21 @@ class OsintMap {
         // stats.textContent = "Number of Polygons: " + globalThis.listOfPolygons.length + "\rNumber of nodes: " + nodecounter;
     }
 
+    updatePolygonList(){ // old name BuildPolygonList
+        
+        var polygonList = document.createElement("select")
+        var opt;
+        polygonList.id = "NewPolygonsList"
+        polygonList.size = "10"
+   
+        for (let index = 0; index < this.#listOfPolygons.length; index++) {
+            opt = document.createElement("option");
+            opt.text = this.#listOfPolygons[index].name;
+            opt.value = this.#listOfPolygons[index].id; //Index might be better
+            polygonList.options.add(opt);
+        }
+
+        this.#debugDiv.appendChild(polygonList);
+    }
 
   }

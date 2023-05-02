@@ -122,7 +122,7 @@ function newDistanceObject(name, color){
     addDistanceListners();
 }
 
-function BuildPolygonList(){
+function BuildPolygonList(){ // DONE
     list = document.getElementById('PolygonsList');
     for (i = list.length - 1; i >= 0; i--) {
         list.remove(i);
@@ -135,15 +135,6 @@ function BuildPolygonList(){
         list.options.add(opt);
     }
 
-    //Stats
-    // stats = document.getElementById('stats');
-    // nodecounter = 0
-    // globalThis.listOfPolygons.forEach(element => {
-    //     if(element.polygon){
-    //         nodecounter += element.polygon._latlngs[0].length;
-    //     }
-    // });
-    // stats.textContent = "Number of Polygons: " + globalThis.listOfPolygons.length + "\rNumber of nodes: " + nodecounter;
 }
 
 function RemoveSelected(){

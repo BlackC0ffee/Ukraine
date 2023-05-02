@@ -63,7 +63,7 @@
     </div>
     <div id="debugDiv">
         <textarea id="OutputBox" rows="5" cols="29"></textarea> 
-        <select id="PolygonsList" size="10"></select>
+        <!--<select id="PolygonsList" size="10"></select>-->
     </div>
 </div>
 <div id="map"></div>
@@ -76,7 +76,7 @@ document.getElementById("menuButton").addEventListener('click', sidebarToggle);
 document.getElementById("selectPolygonButton").addEventListener('click', selectPolygonOnOff);
 document.getElementById("renameButton").addEventListener('click', getRenamePrompt);
 document.getElementById("changeColorButton").addEventListener('click', changeColor);
-document.getElementById("PolygonsList").addEventListener('change', polygonSelectObjectChange);
+//TOFIX document.getElementById("PolygonsList").addEventListener('change', polygonSelectObjectChange);
 document.getElementById("saveColor").addEventListener('click', updateColor);
 document.getElementById('newPolygonButton').addEventListener('click', newPolygonButtonEvent);
 document.getElementById('strokeButton').addEventListener('click', stroke);
@@ -103,6 +103,7 @@ var layerControl = L.control.layers(baseMaps).addTo(map);
 //////// Osint Playground
 var osintMap = new OsintMap(map);
 osintMap.stats = document.getElementById('stats');
+osintMap.debugDiv = document.getElementById('debugDiv');
 //osintMap.listOfPolygons = globalThis.listOfPolygons
 osintMap.addNewPolygon('hello', 'red');
 ////////

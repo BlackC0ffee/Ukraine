@@ -13,7 +13,7 @@ class OsintMap {
             return false;
         }
 
-        const renderFunctions = ['addNewPolygon']; // Functions that require the Render to run at the end needs to be added to this list.
+        const renderFunctions = ['addNewPolygon', 'onMapClick']; // Functions that require the Render to run at the end needs to be added to this list.
 
         this._pol = new Array();
         this._listOfPolygons = new Array();
@@ -57,54 +57,48 @@ class OsintMap {
         this.#activePolygon = {id: (new Date().getTime()), name: name, polygon: L.polygon(this.#pol, {color: color, stroke: true}).addTo(this._map) }
         //this._map.activePolygon = {id: (new Date().getTime()), name: name, polygon: L.polygon(this._pol, {color: color, stroke: true}).addTo(map) }
         this.#listOfPolygons.push(this.#activePolygon);
-        //this._map.listOfPolygons.push(this._map.activePolygon);
-        //BuildPolygonList();
-        //EnableCrosshair();
+        map.on('click', this.onMapClick);
         //if(document.getElementById("selectPolygonButton").textContent == "On"){ document.getElementById("selectPolygonButton").dispatchEvent(new Event('click')); }
         //if(document.getElementById("strokeButton").value == "Off"){ document.getElementById("strokeButton").dispatchEvent(new Event('click')); }
     }
 
+    onMapClick(e) {
+        let latlng;
+        if(snapping){
+            latlng = findClosetNode(e); // TOADD
+        }else{
+            latlng = e.latlng;
+        }
+        this.#pol.push([latlng.lat,latlng.lng]);
+        //generateActivePolygon(pol); /TOADD
+    }
+
     returnStats(){
         if(this.#stats){
-            const nodecounter = 10
-            // this.#listOfPolygonslistOfPolygons.forEach(element => {
-            //     if(element.polygon){
-            //         nodecounter += element.polygon._latlngs[0].length;
-            //     }
-            // });
-            //stats.textContent = "Number of Polygons: " + globalThis.listOfPolygons.length + "\rNumber of nodes: " + nodecounter; 
-            stats.textContent = "Number of Polygons: " + "\rNumber of nodes: " + nodecounter; 
+            let nodecounter = 0
+            this.#listOfPolygons.forEach(element => {
+                if(element.polygon){
+                    nodecounter += element.polygon._latlngs[0].length;
+                }
+            });
+            nodecounter += this.#pol.length;
+            stats.textContent = "Number of Polygons: " + this.#listOfPolygons.length + "\rNumber of nodes: " + nodecounter;
         }
         return true
-        // list = document.getElementById('PolygonsList');
-        // for (i = list.length - 1; i >= 0; i--) {
-        //     list.remove(i);
-        // }
-    
-        // for (let index = 0; index < listOfPolygons.length; index++) {
-        //     opt = document.createElement("option");
-        //     opt.text = listOfPolygons[index].name;
-        //     opt.value = listOfPolygons[index].id; //Index might be better
-        //     list.options.add(opt);
-        // }
-    
-        //Stats
-        // stats = document.getElementById('stats');
-        // nodecounter = 0
-        // globalThis.listOfPolygons.forEach(element => {
-        //     if(element.polygon){
-        //         nodecounter += element.polygon._latlngs[0].length;
-        //     }
-        // });
-        // stats.textContent = "Number of Polygons: " + globalThis.listOfPolygons.length + "\rNumber of nodes: " + nodecounter;
     }
 
     updatePolygonList(){ // old name BuildPolygonList
-        
-        var polygonList = document.createElement("select")
-        var opt;
-        polygonList.id = "NewPolygonsList"
-        polygonList.size = "10"
+        let opt;
+        let polygonList = this.#debugDiv.querySelector('select');
+
+        if(!polygonList){
+            polygonList = document.createElement("select");
+            polygonList.id = "NewPolygonsList";
+            polygonList.size = "10";
+            this.#debugDiv.appendChild(polygonList);
+        }else{
+            polygonList.innerHTML = '';
+        }     
    
         for (let index = 0; index < this.#listOfPolygons.length; index++) {
             opt = document.createElement("option");
@@ -113,7 +107,7 @@ class OsintMap {
             polygonList.options.add(opt);
         }
 
-        this.#debugDiv.appendChild(polygonList);
+        return true;
     }
 
   }

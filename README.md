@@ -2,8 +2,10 @@
 
 
 > This project is depending on Leafletjs, which is created by [Volodymyr Agafonkin](https://agafonkin.com) who lives in Kyiv (Ukraine).
-> If you find the information of this project useful, please consider making a donation to one of the many organisations helping the Ukraine people: [StandWithUkraine]( https://stand-with-ukraine.pp.ua)
->
+> If you find the information of this project useful, please consider making a donation to one of the many organisations helping the Ukraine people:
+> * [StandWithUkraine](https://stand-with-ukraine.pp.ua)
+> * [Franky and Coen into the breach](https://www.frankyandcoen.nl/)
+> 
 >Thank You
 >
 >[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)

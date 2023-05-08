@@ -49,6 +49,7 @@ class OsintMap {
         console.log('Running render');
         this.returnStats();
         this.updatePolygonList();
+        this.#activePolygon.polygon.setLatLngs(this.#pol);
         return true;
     }
 
@@ -70,7 +71,6 @@ class OsintMap {
             latlng = e.latlng;
         }
         this.#pol.push([latlng.lat,latlng.lng]);
-        //generateActivePolygon(pol); /TOADD
     }
 
     returnStats(){

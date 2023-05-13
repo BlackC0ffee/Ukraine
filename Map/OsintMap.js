@@ -1,10 +1,10 @@
 class OsintMap {
-    
     #pol = new Array();
     #listOfPolygons = new Array();
+    #buttonFunctions = {};
     #activePolygon;
     #stats;
-    #debugDiv;
+    #debugDiv; #newPolygonBlock; 
 
     constructor(map) {
         if(map instanceof L.Map){
@@ -15,17 +15,14 @@ class OsintMap {
 
         const renderFunctions = ['addNewPolygon', 'onMapClick']; // Functions that require the Render to run at the end needs to be added to this list.
 
-        this._pol = new Array();
-        this._listOfPolygons = new Array();
-        this._activePolygon;
-
-
         // Iterate over the function names and wrap each one
         for (const functionName of renderFunctions) {
             if (typeof this[functionName] === 'function') {
                 this[functionName] = this.#wrapFunction(this[functionName]);
             }
         }
+
+        this.clickEvent = this.clickEvent.bind(this);
     }
 
     set stats(value){
@@ -34,6 +31,22 @@ class OsintMap {
 
     set debugDiv(value){
         this.#debugDiv = value
+    }
+
+    set newPolygonBlock(value){
+        this.#newPolygonBlock = value;
+        this.#newPolygonBlock.innerHTML = `
+        <p>Name: <input type="text" name="polygonName" id="polygonName"></p>
+        <p>Color: <select id="colorList">
+            <option value="#FFB400">Contested</option>
+            <option value="#004BFF">Ukraine</option>  
+            <option value="#C80000">Russia</option>
+        </select> <button id="newPolygon" onclick="">Add Polygon</button></p>
+        `;
+        this.#newPolygonBlock.style.display = 'none';
+        this.addButtonFunction('newPolygonButton',this.showBlock, this.#newPolygonBlock, undefined);
+        document.getElementById("newPolygon").addEventListener("click", this.addNewPolygon);
+        //TODO: Make the newPolygonButton active
     }
 
     #wrapFunction(fn) {
@@ -53,6 +66,30 @@ class OsintMap {
         return true;
     }
 
+    showBlock(block, forceValue){
+        if (typeof forceValue === 'undefined'){
+            if(block.style.display == 'block'){
+                forceValue = 'none';
+            }else{
+                forceValue = 'block';
+            }
+        }
+        block.style.display = forceValue;
+    }
+
+    addButtonFunction(buttonId, buttonFunction, ...args) {
+        this.#buttonFunctions[buttonId] = buttonFunction.bind(this, ...args);
+    }
+
+    clickEvent(e){
+        const buttonId = e.target.id;
+        const buttonFunction = this.#buttonFunctions[buttonId];
+        if (buttonFunction) {
+          buttonFunction(e);
+        }
+    }
+
+//#region NewPolygonRegion
     addNewPolygon(name, color){
         console.log('Running addNewPolygon');
         this.#activePolygon = {id: (new Date().getTime()), name: name, polygon: L.polygon(this.#pol, {color: color, stroke: true}).addTo(this._map) }
@@ -72,6 +109,7 @@ class OsintMap {
         }
         this.#pol.push([latlng.lat,latlng.lng]);
     }
+//#endregion
 
     returnStats(){
         if(this.#stats){

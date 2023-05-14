@@ -4,7 +4,7 @@ class OsintMap {
     #buttonFunctions = {};
     #activePolygon;
     #stats;
-    #debugDiv; #newPolygonBlock; 
+    #debugDiv; #newPolygonBlock; #colorList; #polygonName;
 
     constructor(map) {
         if(map instanceof L.Map){
@@ -43,9 +43,14 @@ class OsintMap {
             <option value="#C80000">Russia</option>
         </select> <button id="newPolygon" onclick="">Add Polygon</button></p>
         `;
+        this.#colorList = this.#newPolygonBlock.querySelector('#colorList');
+        this.#polygonName = this.#newPolygonBlock.querySelector('#polygonName');
         this.#newPolygonBlock.style.display = 'none';
         this.addButtonFunction('newPolygonButton',this.showBlock, this.#newPolygonBlock, undefined);
-        document.getElementById("newPolygon").addEventListener("click", this.addNewPolygon);
+        this.addButtonFunction('newPolygon',this.newPolygonEvent);
+        this.#newPolygonBlock.querySelector('#newPolygon').addEventListener('click', this.clickEvent);
+        
+        //document.getElementById("newPolygon").addEventListener("click", this.addNewPolygon);
         //TODO: Make the newPolygonButton active
     }
 
@@ -90,6 +95,18 @@ class OsintMap {
     }
 
 //#region NewPolygonRegion
+
+    newPolygonEvent(e){
+        let name = this.#polygonName.value;
+        if(name == ""){
+            name = this.#colorList[this.#colorList.selectedIndex].innerText;
+        }
+        this.addNewPolygon(name, this.#colorList.value);
+        this.showBlock(this.#newPolygonBlock, 'none');
+        // TODO: Show Polygon Edit block
+        // TODO Disable New Polygon untill "done" has been pushed
+    }
+
     addNewPolygon(name, color){
         console.log('Running addNewPolygon');
         this.#activePolygon = {id: (new Date().getTime()), name: name, polygon: L.polygon(this.#pol, {color: color, stroke: true}).addTo(this._map) }

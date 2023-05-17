@@ -43,9 +43,10 @@
         </select> <button id="newPolygon" onclick="">Add Polygon</button></p>
     </div> -->
     <div id="newPolyhonDiv"></div>
-    <div id="editToolsDiv">
+    <div id="editPolygonDiv"></div>
+    <!--<div id="editToolsDiv">
         <p><button id="undoButton">Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);"> | <button id="doneButton">Done</button></p>
-    </div>
+    </div>-->
     <div id="newDistanceDiv">
         <p>Name: <input type="text" name="distanceName" id="distanceName"></p>
         <p>Color: <input type="color" id="distanceColor" name="distanceColor" value="#00FF00"> <button id="newDistanceObject">Add New Distance Line</button></p>
@@ -71,21 +72,21 @@
 <script>
 
 //Events
-//document.getElementById("newPolygon").addEventListener("click", newPolygonEvent);
+//document.getElementById("newPolygon").addEventListener("click", newPolygonEvent); Done
 document.getElementById("upload").addEventListener('submit', uploadJson);
 document.getElementById("menuButton").addEventListener('click', sidebarToggle);
 document.getElementById("selectPolygonButton").addEventListener('click', selectPolygonOnOff);
 document.getElementById("renameButton").addEventListener('click', getRenamePrompt);
 document.getElementById("changeColorButton").addEventListener('click', changeColor);
-//TOFIX document.getElementById("PolygonsList").addEventListener('change', polygonSelectObjectChange);
+//TOFIX document.getElementById("PolygonsList").addEventListener('change', polygonSelectObjectChange); Done
 document.getElementById("saveColor").addEventListener('click', updateColor);
-//document.getElementById('newPolygonButton').addEventListener('click', newPolygonButtonEvent);
+//document.getElementById('newPolygonButton').addEventListener('click', newPolygonButtonEvent); Done
 document.getElementById('strokeButton').addEventListener('click', stroke);
-document.getElementById('undoButton').addEventListener('click', undoButtonClick);
+//document.getElementById('undoButton').addEventListener('click', undoButtonClick);
 document.getElementById('removeActivePolygonButton').addEventListener('click', RemoveSelected);
 document.getElementById('redrawButton').addEventListener('click', redrawPolygons);
-document.getElementById('doneButton').addEventListener('click', doneButtonEvent);
-document.getElementById('editButton').addEventListener('click', editPolygonButtonEvent);
+//document.getElementById('doneButton').addEventListener('click', doneButtonEvent);
+//document.getElementById('editButton').addEventListener('click', editPolygonButtonEvent);
 document.getElementById('newDistanceButton').addEventListener('click', newDistanceButton)
 document.getElementById('newDistanceObject').addEventListener('click', newDistanceObjectEvent)
 
@@ -106,9 +107,12 @@ var osintMap = new OsintMap(map);
 osintMap.stats = document.getElementById('stats');
 osintMap.debugDiv = document.getElementById('debugDiv');
 osintMap.newPolygonBlock = document.getElementById('newPolyhonDiv');
+osintMap.editPolygonBlock = document.getElementById('editPolygonDiv');
+
 document.getElementById('newPolygonButton').addEventListener('click', osintMap.clickEvent);
+document.getElementById('editButton').addEventListener('click', osintMap.clickEvent);
 //osintMap.listOfPolygons = globalThis.listOfPolygons
-osintMap.addNewPolygon('hello', 'red');
+//osintMap.addNewPolygon('hello', 'red');
 
 document.getElementById('addNewPolygon').style.display = 'none';
 document.getElementById('editToolsDiv').style.display = 'block';

@@ -2,9 +2,7 @@ class OsintMap {
     #pol = new Array();
     #listOfPolygons = new Array();
     #buttonFunctions = {};
-    #activePolygon;
-    #stats;
-    #debugDiv; #newPolygonBlock; #colorList; #polygonName;
+    #activePolygon; #snapping; #stats; #debugDiv; #newPolygonBlock; #colorList; #polygonName; #editPolygonBlock;
 
     constructor(map) {
         if(map instanceof L.Map){
@@ -23,6 +21,8 @@ class OsintMap {
         }
 
         this.clickEvent = this.clickEvent.bind(this);
+
+        this.#snapping = false; //Todo remove or change?
     }
 
     set stats(value){
@@ -52,6 +52,15 @@ class OsintMap {
         
         //document.getElementById("newPolygon").addEventListener("click", this.addNewPolygon);
         //TODO: Make the newPolygonButton active
+    }
+
+    set editPolygonBlock(value){
+        this.#editPolygonBlock = value;
+        this.#editPolygonBlock.innerHTML = `
+        <p><button id="undoButton">Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);"> | <button id="doneButton">Done</button></p>
+        `;
+        this.#editPolygonBlock.style.display = 'none';
+        this.addButtonFunction('editButton',this.showBlock, this.#editPolygonBlock, undefined); // need to be moved to menu?
     }
 
     #wrapFunction(fn) {
@@ -109,8 +118,8 @@ class OsintMap {
 
     addNewPolygon(name, color){
         console.log('Running addNewPolygon');
+        this.#pol = new Array();
         this.#activePolygon = {id: (new Date().getTime()), name: name, polygon: L.polygon(this.#pol, {color: color, stroke: true}).addTo(this._map) }
-        //this._map.activePolygon = {id: (new Date().getTime()), name: name, polygon: L.polygon(this._pol, {color: color, stroke: true}).addTo(map) }
         this.#listOfPolygons.push(this.#activePolygon);
         map.on('click', this.onMapClick);
         //if(document.getElementById("selectPolygonButton").textContent == "On"){ document.getElementById("selectPolygonButton").dispatchEvent(new Event('click')); }
@@ -119,8 +128,8 @@ class OsintMap {
 
     onMapClick(e) {
         let latlng;
-        if(snapping){
-            latlng = findClosetNode(e); // TOADD
+        if(this.#snapping){
+            latlng = findClosetNode(e);
         }else{
             latlng = e.latlng;
         }
@@ -128,6 +137,7 @@ class OsintMap {
     }
 //#endregion
 
+//#region HelpFunctions
     returnStats(){
         if(this.#stats){
             let nodecounter = 0
@@ -164,5 +174,28 @@ class OsintMap {
 
         return true;
     }
+
+    findClosetNode(e){
+        let closestNode;
+        let distance;
+        let smallestDistance = 40000000;
+    
+        listOfPolygons.forEach(element => {
+            if(activePolygon.id != element.id){ //skip its own polygon
+                let latLngs = element.polygon.getLatLngs();
+                latLngs[0].forEach(element => {
+                    distance = e.latlng.distanceTo(element);
+                    if(smallestDistance > distance){
+                        smallestDistance = distance;
+                        closestNode = element;
+                    }
+                });
+            }
+        });
+        return { lat: closestNode.lat, lng: closestNode.lng}
+    }
+
+
+//#endregion
 
   }

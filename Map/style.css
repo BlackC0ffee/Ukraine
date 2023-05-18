@@ -99,3 +99,13 @@
 #newDistanceDiv{
     display: none;
 }
+
+/* MainMenu */
+#customButton {
+    /* Style your custom button here */
+    background-color: #e6e6e6;
+    color: black;
+    height: 12px;
+    border: none;
+    cursor: pointer;
+  }

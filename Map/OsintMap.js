@@ -3,6 +3,7 @@ class OsintMap {
     #listOfPolygons = new Array();
     #buttonFunctions = {};
     #activePolygon; #snapping; #stats; #debugDiv; #newPolygonBlock; #colorList; #polygonName; #editPolygonBlock;
+    #mainMenuBlock; #openFile;
 
     constructor(map) {
         if(map instanceof L.Map){
@@ -31,6 +32,17 @@ class OsintMap {
 
     set debugDiv(value){
         this.#debugDiv = value
+    }
+
+    set mainMenuBlock(value){
+        this.#mainMenuBlock = value;
+        this.#mainMenuBlock.innerHTML = `
+        <input type="button" value="Open" id="openFileButton" /><code id="openFileName"></code><input type="file" id="openFile" style="display: none;" accept=".json">
+        `;
+
+        this.#openFile = this.#mainMenuBlock.querySelector('#openFile');
+        this.addButtonFunction('openFileButton',this.openFile);
+
     }
 
     set newPolygonBlock(value){
@@ -93,6 +105,11 @@ class OsintMap {
 
     addButtonFunction(buttonId, buttonFunction, ...args) {
         this.#buttonFunctions[buttonId] = buttonFunction.bind(this, ...args);
+
+        let button = document.getElementById(buttonId);
+        if(button){
+            button.addEventListener('click', this.clickEvent);
+        }
     }
 
     clickEvent(e){
@@ -102,6 +119,13 @@ class OsintMap {
           buttonFunction(e);
         }
     }
+
+//#region MainMenuRegion
+    openFile(){
+        console.log("Open File button clicked");
+        this.#openFile.click();
+    }
+//#endregion
 
 //#region NewPolygonRegion
 

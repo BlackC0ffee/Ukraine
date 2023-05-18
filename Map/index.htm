@@ -15,6 +15,10 @@
 <body>
 <div id="sidebar">
     <div id="menuButtonDiv"><button type="button" id="menuButton">>></button></div>
+    <div id="mainMenuDiv">
+        <!--<input type="button" value="Open" onclick="openFile()" /><code id="openFileName"></code><input type="file" id="openFile" style="display: none;" accept=".json">-->
+
+    </div>
     <div class="menuDiv">
         Selection mode: <button type="button" id="selectPolygonButton">On</button>
     </div>
@@ -108,6 +112,7 @@ osintMap.stats = document.getElementById('stats');
 osintMap.debugDiv = document.getElementById('debugDiv');
 osintMap.newPolygonBlock = document.getElementById('newPolyhonDiv');
 osintMap.editPolygonBlock = document.getElementById('editPolygonDiv');
+osintMap.mainMenuBlock = document.getElementById('mainMenuDiv');
 
 document.getElementById('newPolygonButton').addEventListener('click', osintMap.clickEvent);
 document.getElementById('editButton').addEventListener('click', osintMap.clickEvent);
@@ -118,9 +123,32 @@ document.getElementById('addNewPolygon').style.display = 'none';
 document.getElementById('editToolsDiv').style.display = 'block';
 ////////
 
-//var pol = new Array();
-//var listOfPolygons = Array();
-//var activePolygon
+//OpenfileShizzlePoc//
+function openFile() {
+    var fileInput = document.getElementById('openFile');
+    fileInput.onchange = function () {
+      var file = fileInput.files[0];
+      var fileNameElement = document.getElementById('openFileName');
+
+      if (file && file.type === 'application/json') {
+        fileNameElement.textContent = file.name;
+
+        // Perform your action for a valid file here
+        // For example, you can access the file content using FileReader API
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          var fileContent = e.target.result;
+          // Process the file content as needed
+        };
+        reader.readAsText(file);
+      } else {
+        fileNameElement.textContent = '';
+        alert('Please choose a valid JSON file.');
+      }
+    };
+    fileInput.click();
+  }
+
 
 //50.40675, 30.53378
 var one = 50.40675

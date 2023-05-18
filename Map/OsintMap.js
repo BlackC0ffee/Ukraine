@@ -122,6 +122,8 @@ class OsintMap {
         this.#activePolygon = {id: (new Date().getTime()), name: name, polygon: L.polygon(this.#pol, {color: color, stroke: true}).addTo(this._map) }
         this.#listOfPolygons.push(this.#activePolygon);
         map.on('click', this.onMapClick);
+        this.showBlock(this.#newPolygonBlock, 'none');
+        this.showBlock(this.#editPolygonBlock, 'block');
         //if(document.getElementById("selectPolygonButton").textContent == "On"){ document.getElementById("selectPolygonButton").dispatchEvent(new Event('click')); }
         //if(document.getElementById("strokeButton").value == "Off"){ document.getElementById("strokeButton").dispatchEvent(new Event('click')); }
     }

@@ -16,7 +16,25 @@
 <div id="sidebar">
     <div id="menuButtonDiv"><button type="button" id="menuButton">>></button></div>
     <div id="mainMenuDiv">
-        <!--<input type="button" value="Open" onclick="openFile()" /><code id="openFileName"></code><input type="file" id="openFile" style="display: none;" accept=".json">-->
+        <p><input type="button" value="Open" onclick="openFile()" id="openButton"/><code id="openFileName">No file chosen</code><input type="file" id="openFile" style="display: none;" accept=".json"></p>
+        <p><input type="button" value="Download File" id="downloadFileButton"/></p>
+        <hr class="smallHr">
+        <p class="pToolButton"><input type="button" value="New Polygon" id="newPolygonButton"> <input type="button" value="New Line" id="newLineButton"/></p>
+        <hr class="smallHr">
+        <table id="activeObjectTable">
+            <tr>
+            <td colspan="2">Hello</td>
+            </tr>
+            <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            </tr>
+            <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            </tr>
+        </table>
+        <p class="pToolButton"><input type="button" value="Edit" id="editButton"> <input type="button" value="Remove" id="removeButton"/></p>
 
     </div>
     <div class="menuDiv">
@@ -112,7 +130,7 @@ osintMap.stats = document.getElementById('stats');
 osintMap.debugDiv = document.getElementById('debugDiv');
 osintMap.newPolygonBlock = document.getElementById('newPolyhonDiv');
 osintMap.editPolygonBlock = document.getElementById('editPolygonDiv');
-osintMap.mainMenuBlock = document.getElementById('mainMenuDiv');
+//osintMap.mainMenuBlock = document.getElementById('mainMenuDiv');
 
 document.getElementById('newPolygonButton').addEventListener('click', osintMap.clickEvent);
 document.getElementById('editButton').addEventListener('click', osintMap.clickEvent);

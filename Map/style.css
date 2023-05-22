@@ -101,11 +101,28 @@
 }
 
 /* MainMenu */
-#customButton {
-    /* Style your custom button here */
-    background-color: #e6e6e6;
-    color: black;
-    height: 12px;
-    border: none;
-    cursor: pointer;
-  }
+#mainMenuDiv{
+    padding: 5px;
+}
+#openButton{
+    margin-right: 5px;
+}
+
+#downloadFileButton{
+    width: calc(100% - 10px);
+}
+
+.smallHr{
+    width: 75%;
+}
+
+.pToolButton{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#activeObjectTable{
+    background-color: white;
+    width: 90%;
+}
+

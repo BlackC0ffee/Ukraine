@@ -46,7 +46,7 @@
     overflow-x: hidden;
     width: 250px;
     border-bottom: 1px azure solid;
-    padding: 3px;
+    padding: 5px;
 }
 
 
@@ -122,7 +122,20 @@
 }
 
 #activeObjectTable{
-    background-color: white;
-    width: 90%;
+    width: calc(100% - 10px);
 }
 
+#activeObjectTable th{
+    color: white;
+}
+
+#activeObjectTable td{
+    background-color: white;
+    border: 0px;
+}
+
+table, th, td {
+    border: 0px;
+    border-collapse: collapse;
+    font-family: monospace;
+  }

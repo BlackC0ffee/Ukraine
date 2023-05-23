@@ -37,7 +37,25 @@ class OsintMap {
     set mainMenuBlock(value){
         this.#mainMenuBlock = value;
         this.#mainMenuBlock.innerHTML = `
-        <input type="button" value="Open" id="openFileButton" /><code id="openFileName"></code><input type="file" id="openFile" style="display: none;" accept=".json">
+        <p><input type="button" value="Open" onclick="openFile()" id="openButton"/><code id="openFileName" disabled >No file chosen</code><input type="file" id="openFile" style="display: none;" accept=".json"></p>
+        <p><input type="button" value="Download File" id="downloadFileButton" disabled /></p>
+        <hr class="smallHr">
+        <p class="pToolButton"><input type="button" value="New Polygon" id="newPolygonButton" disabled /> <input type="button" value="New Line" id="newLineButton" disabled /></p>
+        <hr class="smallHr">
+        <table id="activeObjectTable">
+            <tr>
+            <th colspan="2" id='activeObjectTableHeader'>Active Object</th>
+            </tr>
+            <tr>
+            <td>Object Type</td>
+            <td></td>
+            </tr>
+            <tr>
+            <td>Object Name</td>
+            <td></td>
+            </tr>
+        </table>
+        <p class="pToolButton"><input type="button" value="Edit" id="editButton" disabled /> <input type="button" value="Remove" id="removeButton" disabled /></p>
         `;
 
         this.#openFile = this.#mainMenuBlock.querySelector('#openFile');

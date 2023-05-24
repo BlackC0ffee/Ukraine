@@ -105,12 +105,11 @@ var layerControl = L.control.layers(baseMaps).addTo(map);
 
 //////// Osint Playground
 var osintMap = new OsintMap(map);
+osintMap.mainMenuBlock = document.getElementById('mainMenuDiv');
 osintMap.stats = document.getElementById('stats');
 osintMap.debugDiv = document.getElementById('debugDiv');
 osintMap.newPolygonBlock = document.getElementById('newPolyhonDiv');
 osintMap.editPolygonBlock = document.getElementById('editPolygonDiv');
-osintMap.mainMenuBlock = document.getElementById('mainMenuDiv');
-
 document.getElementById('newPolygonButton').addEventListener('click', osintMap.clickEvent);
 document.getElementById('editButton').addEventListener('click', osintMap.clickEvent);
 //osintMap.listOfPolygons = globalThis.listOfPolygons

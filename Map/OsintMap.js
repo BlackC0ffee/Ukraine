@@ -3,7 +3,7 @@ class OsintMap {
     #listOfPolygons = new Array();
     #buttonFunctions = {};
     #activePolygon; #snapping; #stats; #debugDiv; #newPolygonBlock; #colorList; #polygonName; #editPolygonBlock;
-    #mainMenuBlock; #openFile;
+    #mainMenuBlock; #openFile; #newPolygonButton;
 
     constructor(map) {
         if(map instanceof L.Map){
@@ -37,7 +37,7 @@ class OsintMap {
     set mainMenuBlock(value){
         this.#mainMenuBlock = value;
         this.#mainMenuBlock.innerHTML = `
-        <p><input type="button" value="Open" onclick="openFile()" id="openButton"/><code id="openFileName" disabled >No file chosen</code><input type="file" id="openFile" style="display: none;" accept=".json"></p>
+        <p><input type="button" value="Open" id="openFileButton"/> <code id="openFileName" disabled >No file chosen</code><input type="file" id="openFile" style="display: none;" accept=".json"></p>
         <p><input type="button" value="Download File" id="downloadFileButton" disabled /></p>
         <hr class="smallHr">
         <p class="pToolButton"><input type="button" value="New Polygon" id="newPolygonButton" disabled /> <input type="button" value="New Line" id="newLineButton" disabled /></p>
@@ -59,7 +59,9 @@ class OsintMap {
         `;
 
         this.#openFile = this.#mainMenuBlock.querySelector('#openFile');
-        this.addButtonFunction('openFileButton',this.openFile);
+        //this.#newPolygonButton = this.#mainMenuBlock.querySelector('#newPolygonButton');
+        this.addButtonFunction('openFileButton',this.openFileClick);
+        this.#openFile.addEventListener('change',this.openFileChange);
 
     }
 
@@ -76,6 +78,7 @@ class OsintMap {
         this.#colorList = this.#newPolygonBlock.querySelector('#colorList');
         this.#polygonName = this.#newPolygonBlock.querySelector('#polygonName');
         this.#newPolygonBlock.style.display = 'none';
+        this.#newPolygonButton.disabled = false;
         this.addButtonFunction('newPolygonButton',this.showBlock, this.#newPolygonBlock, undefined);
         this.addButtonFunction('newPolygon',this.newPolygonEvent);
         this.#newPolygonBlock.querySelector('#newPolygon').addEventListener('click', this.clickEvent);
@@ -139,9 +142,33 @@ class OsintMap {
     }
 
 //#region MainMenuRegion
-    openFile(){
+    openFileClick(){
         console.log("Open File button clicked");
+        // this.#openFile.onchange = function () {
+        //     var file = this.#openFile.files[0];
+        //     //var fileNameElement = document.getElementById('openFileName');
+      
+        //     if (file && file.type === 'application/json') {
+        //       fileNameElement.textContent = file.name;
+      
+        //       // Perform your action for a valid file here
+        //       // For example, you can access the file content using FileReader API
+        //       var reader = new FileReader();
+        //       reader.onload = function (e) {
+        //         var fileContent = e.target.result;
+        //         // Process the file content as needed
+        //       };
+        //       reader.readAsText(file);
+        //     } else {
+        //       fileNameElement.textContent = '';
+        //       alert('Please choose a valid JSON file.');
+        //     }
+        //   };
         this.#openFile.click();
+    }
+
+    openFileChange(){
+        let file = this.#openFile.files[0];
     }
 //#endregion
 

@@ -3,7 +3,7 @@ class OsintMap {
     #listOfPolygons = new Array();
     #buttonFunctions = {};
     #activePolygon; #snapping; #stats; #debugDiv; #newPolygonBlock; #colorList; #polygonName; #editPolygonBlock;
-    #mainMenuBlock; #openFile; #newPolygonButton;
+    #mainMenuBlock; #openFile; #newPolygonButton; #Reader;
 
     constructor(map) {
         if(map instanceof L.Map){
@@ -22,6 +22,7 @@ class OsintMap {
         }
 
         this.clickEvent = this.clickEvent.bind(this);
+        this.openFileChange = this.openFileChange.bind(this);
 
         this.#snapping = false; //Todo remove or change?
     }
@@ -169,6 +170,35 @@ class OsintMap {
 
     openFileChange(){
         let file = this.#openFile.files[0];
+        let openFileName  = this.#mainMenuBlock.querySelector('#openFileName');
+        openFileName.innerHTML = file.name;
+
+        this.#Reader = new FileReader();
+        this.#Reader.addEventListener("load", this.importJsonData)
+        this.#Reader.readAsText(file);
+        // reader.onload = function() {
+        // this.importJsonData(reader.result);
+        // };
+    }
+
+    importJsonData(e){
+        var innerArray = JSON.parse(e.currentTarget.result);
+        listOfPolygons = Array();
+        // innerArray.forEach(element => {
+        //     if(!element.stroke){
+        //         element.stroke = false;
+        //     }
+        //     var innerPolygon = {id: element.id, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color, stroke: element.stroke}).addTo(map) }
+        //     if (globalThis.mode == 'select'){
+        //         innerPolygon.polygon.on({
+        //             dblclick: dblclickOnPolygonEvent //FIX: should be called when creating the polygon I guess, not only when uploading/redrawing the polygons
+        //         })
+        //     }
+        //     listOfPolygons.push(innerPolygon);
+            
+        // });
+        //BuildPolygonList();
+        //exportData(listOfPolygons, currentDate + '.json', 'text/plain');
     }
 //#endregion
 

@@ -270,13 +270,16 @@ class OsintMap {
     returnStats(){
         if(this.#stats){
             let nodecounter = 0
-            this.#listOfPolygons.forEach(element => {
-                if(element.polygon){
-                    nodecounter += element.polygon._latlngs[0].length;
-                }
-            });
-            nodecounter += this.#pol.length;
-            stats.textContent = "Number of Polygons: " + this.#listOfPolygons.length + "\rNumber of nodes: " + nodecounter;
+            let polygonCounter = 0;
+            if(this.#listOfPolygons.length > 0){
+                polygonCounter = this.#listOfPolygons.length;
+                this.#listOfPolygons.forEach(element => {
+                    if(element.polygon){
+                        nodecounter += element.polygon._latlngs[0].length;
+                    }
+                });
+            }
+            stats.textContent = "Number of Polygons: " + polygonCounter  + "\rNumber of nodes: " + nodecounter;
         }
         return true
     }

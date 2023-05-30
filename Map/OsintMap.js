@@ -14,7 +14,7 @@ class OsintMap {
             return false;
         }
 
-        const renderFunctions = ['addNewPolygon', 'onMapClick', 'importJsonData', 'makePolygonActive', 'removeActiveObject']; // Functions that require the Render to run at the end needs to be added to this list.
+        const renderFunctions = ['addNewPolygon', 'onMapClick', 'importJsonData', 'makePolygonActive', 'removeActiveObject', 'undoPolygonNode']; // Functions that require the Render to run at the end needs to be added to this list.
 
         // Iterate over the function names and wrap each one
         for (const functionName of renderFunctions) {
@@ -102,13 +102,14 @@ class OsintMap {
     set editPolygonBlock(value){
         this.#editPolygonBlock = value;
         this.#editPolygonBlock.innerHTML = `
-        <p><button id="undoButton" disabled>Undo</button> | Snap: <input type="button" value="Off" id="snapButton"> | <button id="doneEditButton">Done</button></p>
+        <p><button id="undoButton">Undo</button> | Snap: <input type="button" value="Off" id="snapButton"> | <button id="doneEditButton">Done</button></p>
         `;
         this.#editPolygonBlock.style.display = 'none';
         this.#snapButton = this.#editPolygonBlock.querySelector('#snapButton');
         this.addButtonFunction('editButton',this.showBlock, this.#editPolygonBlock, undefined); // need to be moved to menu?
         this.addButtonFunction('doneEditButton', this.donePolygonEdit);
         this.addButtonFunction('snapButton', this.snapToggle);
+        this.addButtonFunction('undoButton', this.undoPolygonNode);
     }
 
     #wrapFunction(fn) {
@@ -238,6 +239,10 @@ class OsintMap {
         this.#snapping = this.toggle(this.#snapping);
         if(this.#snapping){this.#snapButton.value = 'On'}else{this.#snapButton.value = 'Off'}
     }
+
+    undoPolygonNode(){
+        this.#pol.pop();
+    }
     
 //#endregion 
 
@@ -337,7 +342,7 @@ class OsintMap {
                             smallestDistance = distance;
                             closestNode = element;
                         }
-                    }e
+                    }
                 });
         });
         if(closestNode){

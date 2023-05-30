@@ -12,7 +12,7 @@ class OsintMap {
             return false;
         }
 
-        const renderFunctions = ['addNewPolygon', 'onMapClick']; // Functions that require the Render to run at the end needs to be added to this list.
+        const renderFunctions = ['addNewPolygon', 'onMapClick', 'importJsonData']; // Functions that require the Render to run at the end needs to be added to this list.
 
         // Iterate over the function names and wrap each one
         for (const functionName of renderFunctions) {
@@ -23,6 +23,7 @@ class OsintMap {
 
         this.clickEvent = this.clickEvent.bind(this);
         this.openFileChange = this.openFileChange.bind(this);
+        this.importJsonData = this.importJsonData.bind(this);
 
         this.#snapping = false; //Todo remove or change?
     }
@@ -60,7 +61,7 @@ class OsintMap {
         `;
 
         this.#openFile = this.#mainMenuBlock.querySelector('#openFile');
-        //this.#newPolygonButton = this.#mainMenuBlock.querySelector('#newPolygonButton');
+        this.#newPolygonButton = this.#mainMenuBlock.querySelector('#newPolygonButton');
         this.addButtonFunction('openFileButton',this.openFileClick);
         this.#openFile.addEventListener('change',this.openFileChange);
 
@@ -145,60 +146,37 @@ class OsintMap {
 //#region MainMenuRegion
     openFileClick(){
         console.log("Open File button clicked");
-        // this.#openFile.onchange = function () {
-        //     var file = this.#openFile.files[0];
-        //     //var fileNameElement = document.getElementById('openFileName');
-      
-        //     if (file && file.type === 'application/json') {
-        //       fileNameElement.textContent = file.name;
-      
-        //       // Perform your action for a valid file here
-        //       // For example, you can access the file content using FileReader API
-        //       var reader = new FileReader();
-        //       reader.onload = function (e) {
-        //         var fileContent = e.target.result;
-        //         // Process the file content as needed
-        //       };
-        //       reader.readAsText(file);
-        //     } else {
-        //       fileNameElement.textContent = '';
-        //       alert('Please choose a valid JSON file.');
-        //     }
-        //   };
         this.#openFile.click();
     }
 
     openFileChange(){
         let file = this.#openFile.files[0];
         let openFileName  = this.#mainMenuBlock.querySelector('#openFileName');
-        openFileName.innerHTML = file.name;
-
-        this.#Reader = new FileReader();
-        this.#Reader.addEventListener("load", this.importJsonData)
-        this.#Reader.readAsText(file);
-        // reader.onload = function() {
-        // this.importJsonData(reader.result);
-        // };
+        if(file){
+            openFileName.innerHTML = file.name;
+            this.#Reader = new FileReader();
+            this.#Reader.addEventListener("load", this.importJsonData);
+            this.#Reader.readAsText(file);
+        }
     }
 
     importJsonData(e){
-        var innerArray = JSON.parse(e.currentTarget.result);
-        listOfPolygons = Array();
-        // innerArray.forEach(element => {
-        //     if(!element.stroke){
-        //         element.stroke = false;
-        //     }
-        //     var innerPolygon = {id: element.id, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color, stroke: element.stroke}).addTo(map) }
-        //     if (globalThis.mode == 'select'){
-        //         innerPolygon.polygon.on({
-        //             dblclick: dblclickOnPolygonEvent //FIX: should be called when creating the polygon I guess, not only when uploading/redrawing the polygons
-        //         })
-        //     }
-        //     listOfPolygons.push(innerPolygon);
+        let innerArray = JSON.parse(this.#Reader.result);
+        this.#listOfPolygons = Array(); // Clear current Array
+        innerArray.forEach(element => {
+            if(!element.stroke){
+                element.stroke = false;
+            }
+            let innerPolygon = {id: element.id, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color, stroke: element.stroke}).addTo(map) }
+            if (globalThis.mode == 'select'){
+                innerPolygon.polygon.on({
+                    dblclick: dblclickOnPolygonEvent //FIX: should be called when creating the polygon I guess, not only when uploading/redrawing the polygons
+                })
+            }
+            this.#listOfPolygons.push(innerPolygon);
             
-        // });
-        //BuildPolygonList();
-        //exportData(listOfPolygons, currentDate + '.json', 'text/plain');
+        });
+        //exportData(listOfPolygons, currentDate + '.json', 'text/plain'); // TODO Export should be part of render function?
     }
 //#endregion
 

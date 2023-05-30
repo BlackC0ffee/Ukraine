@@ -53,12 +53,12 @@
         <p>Color: <input type="color" id="distanceColor" name="distanceColor" value="#00FF00"> <button id="newDistanceObject">Add New Distance Line</button></p>
     </div>
     <div>
-        <form id="upload">
+        <!-- <form id="upload">
             <label for="file">File to upload</label>
             <input type="file" id="file" accept=".json">
             <button type="submit">Upload</button>
         </form>
-        <p><a href="" id="a">Download File</a></p>
+        <p><a href="" id="a">Download File</a></p> -->
         <p><button id="redrawButton">Redraw</button></p>
     </div>
     <div id="stats">
@@ -74,7 +74,7 @@
 
 //Events
 //document.getElementById("newPolygon").addEventListener("click", newPolygonEvent); Done
-document.getElementById("upload").addEventListener('submit', uploadJson);
+//document.getElementById("upload").addEventListener('submit', uploadJson); Done
 document.getElementById("menuButton").addEventListener('click', sidebarToggle);
 document.getElementById("selectPolygonButton").addEventListener('click', selectPolygonOnOff);
 document.getElementById("renameButton").addEventListener('click', getRenamePrompt);
@@ -115,7 +115,7 @@ document.getElementById('editButton').addEventListener('click', osintMap.clickEv
 //osintMap.listOfPolygons = globalThis.listOfPolygons
 //osintMap.addNewPolygon('hello', 'red');
 
-document.getElementById('addNewPolygon').style.display = 'none';
+//document.getElementById('addNewPolygon').style.display = 'none';
 document.getElementById('editToolsDiv').style.display = 'block';
 ////////
 

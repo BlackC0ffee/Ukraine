@@ -106,7 +106,7 @@ class OsintMap {
         `;
         this.#editPolygonBlock.style.display = 'none';
         this.addButtonFunction('editButton',this.showBlock, this.#editPolygonBlock, undefined); // need to be moved to menu?
-        this.addButtonFunction('doneEditButton', this.showBlock, this.#editPolygonBlock, 'none');
+        this.addButtonFunction('doneEditButton', this.donePolygonEdit);
     }
 
     #wrapFunction(fn) {
@@ -155,7 +155,6 @@ class OsintMap {
 
     addButtonFunction(buttonId, buttonFunction, ...args) {
         this.#buttonFunctions[buttonId] = buttonFunction.bind(this, ...args);
-
         let button = document.getElementById(buttonId);
         if(button){
             button.addEventListener('click', this.clickEvent);
@@ -198,19 +197,6 @@ class OsintMap {
         this.#pol = new Array();
     }
 
-//#endregion
-
-//#region EditPolygonRegion
-    dblclickOnPolygonEvent(e){
-        let layer=e.target;
-        this.#listOfPolygons.forEach(element => {
-            let p = element.polygon
-            if(layer == p){
-                this.makePolygonActive(element.id);
-            }
-        });
-    }
-
     makePolygonActive(polygonId){
         for (let index = 0; index < this.#listOfPolygons.length; index++) {
             if(this.#listOfPolygons[index].id == polygonId){
@@ -226,6 +212,25 @@ class OsintMap {
                 // }
             }     
         }
+    }
+
+//#endregion
+
+//#region EditPolygonRegion
+    dblclickOnPolygonEvent(e){
+        let layer=e.target;
+        this.#listOfPolygons.forEach(element => {
+            let p = element.polygon
+            if(layer == p){
+                this.makePolygonActive(element.id);
+            }
+        });
+    }
+
+    donePolygonEdit(){
+        this.showBlock(this.#editPolygonBlock, 'none');
+        this.toggleCrosshair('off');
+        map.off('click', this.onMapClick);
     }
 
     
@@ -247,7 +252,7 @@ class OsintMap {
     addNewPolygon(name, color){
         console.log('Running addNewPolygon');
         this.#pol = new Array();
-        this.#activePolygon = {id: (new Date().getTime()), name: name, polygon: L.polygon(this.#pol, {color: color, stroke: true}).addTo(this._map) }
+        this.#activePolygon = {id: (new Date().getTime()), type: 'polygon', name: name, polygon: L.polygon(this.#pol, {color: color, stroke: true}).addTo(this._map) }
         this.#listOfPolygons.push(this.#activePolygon);
         map.on('click', this.onMapClick);
         this.toggleCrosshair('on');

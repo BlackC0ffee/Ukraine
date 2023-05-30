@@ -4,7 +4,7 @@ class OsintMap {
     #buttonFunctions = {};
     #activePolygon; #snapping; #stats; #debugDiv; #newPolygonBlock; #colorList; #polygonName; #editPolygonBlock;
     #mainMenuBlock; #openFile; #newPolygonButton; #Reader; #objectTypeField; #objectNameField; #editButton; #downloadFileButton; #removeButton;
-    #doneButton;
+    #doneButton; #snapButton;
 
     constructor(map) {
         if(map instanceof L.Map){
@@ -102,11 +102,13 @@ class OsintMap {
     set editPolygonBlock(value){
         this.#editPolygonBlock = value;
         this.#editPolygonBlock.innerHTML = `
-        <p><button id="undoButton" disabled>Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);" disabled> | <button id="doneEditButton">Done</button></p>
+        <p><button id="undoButton" disabled>Undo</button> | Snap: <input type="button" value="Off" id="snapButton"> | <button id="doneEditButton">Done</button></p>
         `;
         this.#editPolygonBlock.style.display = 'none';
+        this.#snapButton = this.#editPolygonBlock.querySelector('#snapButton');
         this.addButtonFunction('editButton',this.showBlock, this.#editPolygonBlock, undefined); // need to be moved to menu?
         this.addButtonFunction('doneEditButton', this.donePolygonEdit);
+        this.addButtonFunction('snapButton', this.snapToggle);
     }
 
     #wrapFunction(fn) {
@@ -138,7 +140,6 @@ class OsintMap {
         }else{
             this.#downloadFileButton.disabled = true;
         }
-
         return true;
     }
 
@@ -233,6 +234,10 @@ class OsintMap {
         map.off('click', this.onMapClick);
     }
 
+    snapToggle(){
+        this.#snapping = this.toggle(this.#snapping);
+        if(this.#snapping){this.#snapButton.value = 'On'}else{this.#snapButton.value = 'Off'}
+    }
     
 //#endregion 
 
@@ -265,7 +270,9 @@ class OsintMap {
     onMapClick(e) {
         let latlng;
         if(this.#snapping){
-            latlng = findClosetNode(e);
+            if(!(latlng = this.findClosetNode(e))){
+                latlng = e.latlng;
+            }
         }else{
             latlng = e.latlng;
         }
@@ -318,20 +325,26 @@ class OsintMap {
         let closestNode;
         let distance;
         let smallestDistance = 40000000;
-    
-        listOfPolygons.forEach(element => {
-            if(activePolygon.id != element.id){ //skip its own polygon
+
+        let activePolygons = this.#activePolygon.polygon.getLatLngs();
+        let lastNode = activePolygons[0];[activePolygons[0].length - 1];
+        this.#listOfPolygons.forEach(element => {
                 let latLngs = element.polygon.getLatLngs();
                 latLngs[0].forEach(element => {
-                    distance = e.latlng.distanceTo(element);
-                    if(smallestDistance > distance){
-                        smallestDistance = distance;
-                        closestNode = element;
-                    }
+                    if(lastNode.length == 0 || lastNode[0].lat != element.lat && lastNode[0].lng != element.lng){ // ignore previouse node
+                        distance = e.latlng.distanceTo(element);
+                        if(smallestDistance > distance){
+                            smallestDistance = distance;
+                            closestNode = element;
+                        }
+                    }e
                 });
-            }
         });
-        return { lat: closestNode.lat, lng: closestNode.lng}
+        if(closestNode){
+            return { lat: closestNode.lat, lng: closestNode.lng } //only returns value if something is found
+        }else{
+            return false;
+        }
     }
 
     toggleCrosshair(onOrOff){
@@ -339,6 +352,12 @@ class OsintMap {
             L.DomUtil.addClass(map._container,'crosshair-cursor-enabled');
         }else if(onOrOff == 'off'){
             L.DomUtil.removeClass(map._container,'crosshair-cursor-enabled');
+        }
+    }
+
+    toggle(boolean){
+        if (typeof boolean === 'boolean'){
+            return boolean === true ? false : true;
         }
     }
 

@@ -127,7 +127,11 @@ class OsintMap {
             this.#editButton.disabled = true;
         }
 
-        if(this.#listOfPolygons.length > 0){ this.#downloadFileButton.disabled = false; }else{ this.#downloadFileButton.disabled = true; }
+        if(this.#listOfPolygons.length > 0){
+            this.#downloadFileButton.disabled = false;
+        }else{
+            this.#downloadFileButton.disabled = true;
+        }
 
         return true;
     }
@@ -308,6 +312,12 @@ class OsintMap {
 //#region Import/Export Functions
     importJsonData(e){
         let innerArray = JSON.parse(this.#Reader.result);
+        //Clear all Polygons if needed
+        if(this.#listOfPolygons.length > 0){
+            this.#listOfPolygons.forEach(element => { 
+                element.polygon.remove();
+            });
+        }
         this.#listOfPolygons = Array(); // Clear current Array
         innerArray.forEach(element => {
             if(!element.stroke){
@@ -323,7 +333,6 @@ class OsintMap {
             this.#listOfPolygons.push(innerPolygon);
             
         });
-        //exportData(listOfPolygons, currentDate + '.json', 'text/plain'); // TODO Export should be part of render function?
     }
 
     exportDataToJson() {
@@ -356,5 +365,4 @@ class OsintMap {
         return true;
     }
 //#endregion
-
-  }
+}

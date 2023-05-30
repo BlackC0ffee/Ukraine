@@ -227,7 +227,7 @@ class OsintMap {
     }
 
     
-//#region 
+//#endregion 
 
 //#region NewPolygonRegion
 
@@ -248,6 +248,7 @@ class OsintMap {
         this.#activePolygon = {id: (new Date().getTime()), name: name, polygon: L.polygon(this.#pol, {color: color, stroke: true}).addTo(this._map) }
         this.#listOfPolygons.push(this.#activePolygon);
         map.on('click', this.onMapClick);
+        this.toggleCrosshair('on');
         this.showBlock(this.#newPolygonBlock, 'none');
         this.showBlock(this.#editPolygonBlock, 'block');
         //if(document.getElementById("selectPolygonButton").textContent == "On"){ document.getElementById("selectPolygonButton").dispatchEvent(new Event('click')); }
@@ -323,6 +324,13 @@ class OsintMap {
         return { lat: closestNode.lat, lng: closestNode.lng}
     }
 
+    toggleCrosshair(onOrOff){
+        if(onOrOff == 'on'){
+            L.DomUtil.addClass(map._container,'crosshair-cursor-enabled');
+        }else if(onOrOff == 'off'){
+            L.DomUtil.removeClass(map._container,'crosshair-cursor-enabled');
+        }
+    }
 
 //#endregion
 

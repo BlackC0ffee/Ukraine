@@ -3,7 +3,7 @@ class OsintMap {
     #listOfPolygons = new Array();
     #buttonFunctions = {};
     #activePolygon; #snapping; #stats; #debugDiv; #newPolygonBlock; #colorList; #polygonName; #editPolygonBlock;
-    #mainMenuBlock; #openFile; #newPolygonButton; #Reader; #objectTypeField; #objectNameField; #editButton; #downloadFileButton;
+    #mainMenuBlock; #openFile; #newPolygonButton; #Reader; #objectTypeField; #objectNameField; #editButton; #downloadFileButton; #removeButton;
 
     constructor(map) {
         if(map instanceof L.Map){
@@ -13,7 +13,7 @@ class OsintMap {
             return false;
         }
 
-        const renderFunctions = ['addNewPolygon', 'onMapClick', 'importJsonData', 'makePolygonActive']; // Functions that require the Render to run at the end needs to be added to this list.
+        const renderFunctions = ['addNewPolygon', 'onMapClick', 'importJsonData', 'makePolygonActive', 'removeActiveObject']; // Functions that require the Render to run at the end needs to be added to this list.
 
         // Iterate over the function names and wrap each one
         for (const functionName of renderFunctions) {
@@ -67,10 +67,12 @@ class OsintMap {
         this.#objectNameField = this.#mainMenuBlock.querySelector('#objectNameField');
         this.#editButton = this.#mainMenuBlock.querySelector('#editButton');
         this.#downloadFileButton = this.#mainMenuBlock.querySelector('#downloadFileButton');
+        this.#removeButton = this.#mainMenuBlock.querySelector('#removeButton');
         this.addButtonFunction('openFileButton',this.openFileClick);
         this.#openFile.addEventListener('change',this.openFileChange);
 
         this.addButtonFunction('downloadFileButton', this.exportDataToJson);
+        this.addButtonFunction('removeButton', this.removeActiveObject);
 
     }
 
@@ -123,8 +125,10 @@ class OsintMap {
             this.#objectTypeField.innerHTML = this.#activePolygon.type;
             this.#objectNameField.innerHTML = this.#activePolygon.name;
             this.#editButton.disabled = false;
+            this.#removeButton.disabled = false;
         }else{
             this.#editButton.disabled = true;
+            this.#removeButton.disabled = true;
         }
 
         if(this.#listOfPolygons.length > 0){
@@ -181,6 +185,17 @@ class OsintMap {
         }
     }
 
+    removeActiveObject(){
+        for (let index = 0; index < this.#listOfPolygons.length; index++) {
+            if(this.#listOfPolygons[index].id == this.#activePolygon.id){
+                this.#listOfPolygons[index].polygon.remove();
+                this.#listOfPolygons.splice(index, 1);
+            }
+        }
+        this.#activePolygon = undefined;
+        this.#pol = new Array();
+    }
+
 //#endregion
 
 //#region EditPolygonRegion
@@ -210,6 +225,8 @@ class OsintMap {
             }     
         }
     }
+
+    
 //#region 
 
 //#region NewPolygonRegion

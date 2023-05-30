@@ -3,16 +3,17 @@ class OsintMap {
     #listOfPolygons = new Array();
     #buttonFunctions = {};
     #activePolygon; #snapping; #stats; #debugDiv; #newPolygonBlock; #colorList; #polygonName; #editPolygonBlock;
-    #mainMenuBlock; #openFile; #newPolygonButton; #Reader;
+    #mainMenuBlock; #openFile; #newPolygonButton; #Reader; #objectTypeField; #objectNameField; #editButton; #downloadFileButton;
 
     constructor(map) {
         if(map instanceof L.Map){
             this._map = map;
+            this._map.doubleClickZoom.disable();
         }else{
             return false;
         }
 
-        const renderFunctions = ['addNewPolygon', 'onMapClick', 'importJsonData']; // Functions that require the Render to run at the end needs to be added to this list.
+        const renderFunctions = ['addNewPolygon', 'onMapClick', 'importJsonData', 'makePolygonActive']; // Functions that require the Render to run at the end needs to be added to this list.
 
         // Iterate over the function names and wrap each one
         for (const functionName of renderFunctions) {
@@ -24,7 +25,7 @@ class OsintMap {
         this.clickEvent = this.clickEvent.bind(this);
         this.openFileChange = this.openFileChange.bind(this);
         this.importJsonData = this.importJsonData.bind(this);
-
+        this.dblclickOnPolygonEvent = this.dblclickOnPolygonEvent.bind(this);
         this.#snapping = false; //Todo remove or change?
     }
 
@@ -50,11 +51,11 @@ class OsintMap {
             </tr>
             <tr>
             <td>Object Type</td>
-            <td></td>
+            <td id='objectTypeField'></td>
             </tr>
             <tr>
             <td>Object Name</td>
-            <td></td>
+            <td id='objectNameField'></td>
             </tr>
         </table>
         <p class="pToolButton"><input type="button" value="Edit" id="editButton" disabled /> <input type="button" value="Remove" id="removeButton" disabled /></p>
@@ -62,8 +63,14 @@ class OsintMap {
 
         this.#openFile = this.#mainMenuBlock.querySelector('#openFile');
         this.#newPolygonButton = this.#mainMenuBlock.querySelector('#newPolygonButton');
+        this.#objectTypeField = this.#mainMenuBlock.querySelector('#objectTypeField');
+        this.#objectNameField = this.#mainMenuBlock.querySelector('#objectNameField');
+        this.#editButton = this.#mainMenuBlock.querySelector('#editButton');
+        this.#downloadFileButton = this.#mainMenuBlock.querySelector('#downloadFileButton');
         this.addButtonFunction('openFileButton',this.openFileClick);
         this.#openFile.addEventListener('change',this.openFileChange);
+
+        this.addButtonFunction('downloadFileButton', this.exportDataToJson);
 
     }
 
@@ -111,7 +118,17 @@ class OsintMap {
         console.log('Running render');
         this.returnStats();
         this.updatePolygonList();
-        this.#activePolygon.polygon.setLatLngs(this.#pol);
+        if(this.#activePolygon){
+            this.#activePolygon.polygon.setLatLngs(this.#pol);
+            this.#objectTypeField.innerHTML = this.#activePolygon.type;
+            this.#objectNameField.innerHTML = this.#activePolygon.name;
+            this.#editButton.disabled = false;
+        }else{
+            this.#editButton.disabled = true;
+        }
+
+        if(this.#listOfPolygons.length > 0){ this.#downloadFileButton.disabled = false; }else{ this.#downloadFileButton.disabled = true; }
+
         return true;
     }
 
@@ -160,25 +177,36 @@ class OsintMap {
         }
     }
 
-    importJsonData(e){
-        let innerArray = JSON.parse(this.#Reader.result);
-        this.#listOfPolygons = Array(); // Clear current Array
-        innerArray.forEach(element => {
-            if(!element.stroke){
-                element.stroke = false;
-            }
-            let innerPolygon = {id: element.id, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color, stroke: element.stroke}).addTo(map) }
-            if (globalThis.mode == 'select'){
-                innerPolygon.polygon.on({
-                    dblclick: dblclickOnPolygonEvent //FIX: should be called when creating the polygon I guess, not only when uploading/redrawing the polygons
-                })
-            }
-            this.#listOfPolygons.push(innerPolygon);
-            
-        });
-        //exportData(listOfPolygons, currentDate + '.json', 'text/plain'); // TODO Export should be part of render function?
-    }
 //#endregion
+
+//#region EditPolygonRegion
+    dblclickOnPolygonEvent(e){
+        let layer=e.target;
+        this.#listOfPolygons.forEach(element => {
+            let p = element.polygon
+            if(layer == p){
+                this.makePolygonActive(element.id);
+            }
+        });
+    }
+
+    makePolygonActive(polygonId){
+        for (let index = 0; index < this.#listOfPolygons.length; index++) {
+            if(this.#listOfPolygons[index].id == polygonId){
+                this.#activePolygon = this.#listOfPolygons[index]
+                this.#pol = new Array();
+                this.#activePolygon.polygon._latlngs[0].forEach(element => { //TODO: replace with method getLatLngs()
+                    this.#pol.push([element.lat,element.lng])
+                });
+                // if(activePolygon.polygon.options.stroke){
+                //     document.getElementById("strokeButton").value = "On"
+                // }else{
+                //     document.getElementById("strokeButton").value = "Off"
+                // }
+            }     
+        }
+    }
+//#region 
 
 //#region NewPolygonRegion
 
@@ -275,6 +303,58 @@ class OsintMap {
     }
 
 
+//#endregion
+
+//#region Import/Export Functions
+    importJsonData(e){
+        let innerArray = JSON.parse(this.#Reader.result);
+        this.#listOfPolygons = Array(); // Clear current Array
+        innerArray.forEach(element => {
+            if(!element.stroke){
+                element.stroke = false;
+            }
+            if(!element.type){
+                element.type = 'polygon';
+            }
+            let innerPolygon = {id: element.id, type: element.type, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color, stroke: element.stroke}).addTo(map) }
+            innerPolygon.polygon.on({
+                dblclick: this.dblclickOnPolygonEvent //FIX: should be called when creating the polygon I guess, not only when uploading/redrawing the polygons
+            });
+            this.#listOfPolygons.push(innerPolygon);
+            
+        });
+        //exportData(listOfPolygons, currentDate + '.json', 'text/plain'); // TODO Export should be part of render function?
+    }
+
+    exportDataToJson() {
+        let jsobObj = new Array();
+        let jsonOut; let file; let link; let objectURL;
+        let name = new Date().toJSON().slice(0, 10) + '.json';
+        let type = 'text/plain';
+        this.#listOfPolygons.forEach(element => {
+            jsobObj.push({id: element.id, type: element.type, name: element.name, polygonCordinates:element.polygon.getLatLngs(), color: element.polygon.options['color'], stroke: element.polygon.options['stroke']})
+        });
+        
+        // Create the Object
+        jsonOut = JSON.stringify(jsobObj);
+        file = new Blob([jsonOut], {type: type});
+        objectURL = URL.createObjectURL(file);
+
+        //Link the Object to a hidden A-tag
+        link = document.createElement("a");
+        link.style.display = "none";     
+        document.body.appendChild(link);
+        link.href = objectURL;
+        link.download = name;
+
+        //Trigger the download. <- *Insert hackerman meme here* 
+        link.click();
+
+        //Cleanup
+        URL.revokeObjectURL(objectURL);
+        document.body.removeChild(link);
+        return true;
+    }
 //#endregion
 
   }

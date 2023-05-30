@@ -4,6 +4,7 @@ class OsintMap {
     #buttonFunctions = {};
     #activePolygon; #snapping; #stats; #debugDiv; #newPolygonBlock; #colorList; #polygonName; #editPolygonBlock;
     #mainMenuBlock; #openFile; #newPolygonButton; #Reader; #objectTypeField; #objectNameField; #editButton; #downloadFileButton; #removeButton;
+    #doneButton;
 
     constructor(map) {
         if(map instanceof L.Map){
@@ -101,10 +102,11 @@ class OsintMap {
     set editPolygonBlock(value){
         this.#editPolygonBlock = value;
         this.#editPolygonBlock.innerHTML = `
-        <p><button id="undoButton">Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);"> | <button id="doneButton">Done</button></p>
+        <p><button id="undoButton" disabled>Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);" disabled> | <button id="doneEditButton">Done</button></p>
         `;
         this.#editPolygonBlock.style.display = 'none';
         this.addButtonFunction('editButton',this.showBlock, this.#editPolygonBlock, undefined); // need to be moved to menu?
+        this.addButtonFunction('doneEditButton', this.showBlock, this.#editPolygonBlock, 'none');
     }
 
     #wrapFunction(fn) {

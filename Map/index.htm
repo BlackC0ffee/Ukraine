@@ -16,14 +16,15 @@
 <div id="sidebar">
     <div id="menuButtonDiv"><button type="button" id="menuButton">>></button></div>
     <div id="mainMenuDiv"></div>
-    <div class="menuDiv">
+    <div id="subMenuDiv"></div>
+    <!--<div class="menuDiv">
         Selection mode: <button type="button" id="selectPolygonButton">On</button>
-    </div>
+    </div>-->
     <div>
-        <!-- <p>Active Polygon: <input type="text" id="activePolygonName" readonly="readonly" /></p> -->
-        <p><!--<button type="button" id="editButton">Edit</button> |--> <button type="button" id="renameButton">Rename</button> | <button type="button" id="changeColorButton">Change Color</button></p>
+        <!-- <p>Active Polygon: <input type="text" id="activePolygonName" readonly="readonly" /></p> 
+        <p><button type="button" id="editButton">Edit</button> | <button type="button" id="renameButton">Rename</button> | <button type="button" id="changeColorButton">Change Color</button></p>
         <p>Stroke: <input type="button" value="On" id="strokeButton"></p>
-        <p><!--<button type="button" id="newPolygonButton">New Polygon</button> |<button id="removeActivePolygonButton">Remove Polygon</button>--></p>
+        <p><button type="button" id="newPolygonButton">New Polygon</button> |<button id="removeActivePolygonButton">Remove Polygon</button></p>-->
         <p><button type="button" id="newDistanceButton">New line</button> |
     </div>
     <div id="changeColorDiv">
@@ -76,13 +77,13 @@
 //document.getElementById("newPolygon").addEventListener("click", newPolygonEvent); Done
 //document.getElementById("upload").addEventListener('submit', uploadJson); Done
 document.getElementById("menuButton").addEventListener('click', sidebarToggle);
-document.getElementById("selectPolygonButton").addEventListener('click', selectPolygonOnOff);
-document.getElementById("renameButton").addEventListener('click', getRenamePrompt);
-document.getElementById("changeColorButton").addEventListener('click', changeColor);
+//document.getElementById("selectPolygonButton").addEventListener('click', selectPolygonOnOff); TODO (if needed)
+//document.getElementById("renameButton").addEventListener('click', getRenamePrompt); TODO
+//document.getElementById("changeColorButton").addEventListener('click', changeColor); TODO
 //TOFIX document.getElementById("PolygonsList").addEventListener('change', polygonSelectObjectChange); Done
 document.getElementById("saveColor").addEventListener('click', updateColor);
 //document.getElementById('newPolygonButton').addEventListener('click', newPolygonButtonEvent); Done
-document.getElementById('strokeButton').addEventListener('click', stroke);
+//document.getElementById('strokeButton').addEventListener('click', stroke); Done
 //document.getElementById('undoButton').addEventListener('click', undoButtonClick);
 //document.getElementById('removeActivePolygonButton').addEventListener('click', RemoveSelected);
 document.getElementById('redrawButton').addEventListener('click', redrawPolygons);
@@ -110,6 +111,7 @@ osintMap.stats = document.getElementById('stats');
 osintMap.debugDiv = document.getElementById('debugDiv');
 osintMap.newPolygonBlock = document.getElementById('newPolyhonDiv');
 osintMap.editPolygonBlock = document.getElementById('editPolygonDiv');
+osintMap.subMenuBlock = document.getElementById('subMenuDiv');
 document.getElementById('newPolygonButton').addEventListener('click', osintMap.clickEvent);
 document.getElementById('editButton').addEventListener('click', osintMap.clickEvent);
 //osintMap.listOfPolygons = globalThis.listOfPolygons

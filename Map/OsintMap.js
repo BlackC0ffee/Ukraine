@@ -4,7 +4,8 @@ class OsintMap {
     #buttonFunctions = {};
     #activePolygon; #snapping; #stats; #debugDiv; #newPolygonBlock; #colorList; #polygonName; #editPolygonBlock;
     #mainMenuBlock; #openFile; #newPolygonButton; #Reader; #objectTypeField; #objectNameField; #editButton; #downloadFileButton; #removeButton;
-    #doneButton; #snapButton;
+    #doneButton; #snapButton; 
+    #subMenuBlock; #innerSubMenuBlocks
 
     constructor(map) {
         if(map instanceof L.Map){
@@ -112,6 +113,36 @@ class OsintMap {
         this.addButtonFunction('undoButton', this.undoPolygonNode);
     }
 
+    set subMenuBlock(value){
+        this.#subMenuBlock = value;
+        this.showBlock(this.#subMenuBlock, 'none');
+        this.#subMenuBlock.innerHTML = `
+        <p id='polygonSubMenu'>Stroke: <input type="button" value="On" id="strokeButton"></p>
+        <p id='lineSubMenu'>Line</p>
+        `;
+    }
+
+    updateSubMenuBlock(){
+        let subMenus = this.#subMenuBlock.getElementsByTagName("p");
+        Array.from(subMenus).forEach(element => {
+            element.style.display = 'none';
+        });
+
+        if(this.#activePolygon){
+            this.showBlock(this.#subMenuBlock, 'block');
+            switch (this.#activePolygon.type) {
+                case 'polygon':
+                    this.#subMenuBlock.querySelector('#polygonSubMenu').style.display = 'block';
+                    this.addButtonFunction('strokeButton', this.stroke)
+                    break;
+                default:
+                    break;
+            }
+        }else{
+            this.showBlock(this.#subMenuBlock, 'none');
+        }
+    }
+
     #wrapFunction(fn) {
         return (...args) => {
           //this.functionD();
@@ -134,7 +165,11 @@ class OsintMap {
         }else{
             this.#editButton.disabled = true;
             this.#removeButton.disabled = true;
+            this.#objectTypeField.innerHTML = '';
+            this.#objectNameField.innerHTML = '';
         }
+
+        this.updateSubMenuBlock();
 
         if(this.#listOfPolygons.length > 0){
             this.#downloadFileButton.disabled = false;
@@ -216,6 +251,19 @@ class OsintMap {
         }
     }
 
+//#endregion
+
+//#region SubMenuRegion
+    stroke(e){
+        let currentvalue = e.currentTarget.value;
+        if(currentvalue == "Off"){
+        e.currentTarget.value="On";
+        this.#activePolygon.polygon.setStyle({stroke: true})
+        }else{
+        e.currentTarget.value="Off";
+        this.#activePolygon.polygon.setStyle({stroke: false})
+        }
+    }
 //#endregion
 
 //#region EditPolygonRegion

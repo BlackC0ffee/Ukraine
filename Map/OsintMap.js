@@ -6,7 +6,7 @@ class OsintMap {
     #mainMenuBlock; #openFile; #newPolygonButton; #Reader; #objectTypeField; #objectNameField; #editButton; #downloadFileButton; #removeButton;
     #doneButton; #snapButton; 
     #subMenuBlock; #innerSubMenuBlocks;
-    #colorListEdit;
+    #colorListEdit; #polygonNameEdit
 
     constructor(map) {
         if(map instanceof L.Map){
@@ -16,7 +16,7 @@ class OsintMap {
             return false;
         }
 
-        const renderFunctions = ['addNewPolygon', 'onMapClick', 'importJsonData', 'makePolygonActive', 'removeActiveObject', 'undoPolygonNode', 'colorChange']; // Functions that require the Render to run at the end needs to be added to this list.
+        const renderFunctions = ['addNewPolygon', 'onMapClick', 'importJsonData', 'makePolygonActive', 'removeActiveObject', 'undoPolygonNode', 'colorChange', 'nameChange']; // Functions that require the Render to run at the end needs to be added to this list.
 
         // Iterate over the function names and wrap each one
         for (const functionName of renderFunctions) {
@@ -30,6 +30,7 @@ class OsintMap {
         this.importJsonData = this.importJsonData.bind(this);
         this.dblclickOnPolygonEvent = this.dblclickOnPolygonEvent.bind(this);
         this.colorChange = this.colorChange.bind(this);
+        this.nameChange = this.nameChange.bind(this);
         this.#snapping = false; //Todo remove or change?
     }
 
@@ -105,7 +106,7 @@ class OsintMap {
     set editPolygonBlock(value){
         this.#editPolygonBlock = value;
         this.#editPolygonBlock.innerHTML = `
-        <p>Name: <input type="text" name="polygonName" id="polygonName"></p>
+        <p>Name: <input type="text" name="polygonName" id="polygonNameEdit"></p>
         <p>Color: <select id="colorListEdit">
             <option value="#FFB400">Contested</option>
             <option value="#004BFF">Ukraine</option>  
@@ -121,6 +122,9 @@ class OsintMap {
         this.addButtonFunction('undoButton', this.undoPolygonNode);
         this.#colorListEdit = this.#editPolygonBlock.querySelector('#colorListEdit');
         this.#colorListEdit.addEventListener('change', this.colorChange);
+
+        this.#polygonNameEdit = this.#editPolygonBlock.querySelector('#polygonNameEdit');
+        this.#polygonNameEdit.addEventListener('change', this.nameChange)
     }
 
     set subMenuBlock(value){
@@ -311,6 +315,9 @@ class OsintMap {
 
     nameChange(){
         console.log('NameChanged');
+        if(this.#activePolygon){
+            this.#activePolygon.name = this.#polygonNameEdit.value;
+        }
     }
     
 //#endregion 

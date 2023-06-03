@@ -5,7 +5,8 @@ class OsintMap {
     #activePolygon; #snapping; #stats; #debugDiv; #newPolygonBlock; #colorList; #polygonName; #editPolygonBlock;
     #mainMenuBlock; #openFile; #newPolygonButton; #Reader; #objectTypeField; #objectNameField; #editButton; #downloadFileButton; #removeButton;
     #doneButton; #snapButton; 
-    #subMenuBlock; #innerSubMenuBlocks
+    #subMenuBlock; #innerSubMenuBlocks;
+    #colorListEdit;
 
     constructor(map) {
         if(map instanceof L.Map){
@@ -15,7 +16,7 @@ class OsintMap {
             return false;
         }
 
-        const renderFunctions = ['addNewPolygon', 'onMapClick', 'importJsonData', 'makePolygonActive', 'removeActiveObject', 'undoPolygonNode']; // Functions that require the Render to run at the end needs to be added to this list.
+        const renderFunctions = ['addNewPolygon', 'onMapClick', 'importJsonData', 'makePolygonActive', 'removeActiveObject', 'undoPolygonNode', 'colorChange']; // Functions that require the Render to run at the end needs to be added to this list.
 
         // Iterate over the function names and wrap each one
         for (const functionName of renderFunctions) {
@@ -28,6 +29,7 @@ class OsintMap {
         this.openFileChange = this.openFileChange.bind(this);
         this.importJsonData = this.importJsonData.bind(this);
         this.dblclickOnPolygonEvent = this.dblclickOnPolygonEvent.bind(this);
+        this.colorChange = this.colorChange.bind(this);
         this.#snapping = false; //Todo remove or change?
     }
 
@@ -103,6 +105,12 @@ class OsintMap {
     set editPolygonBlock(value){
         this.#editPolygonBlock = value;
         this.#editPolygonBlock.innerHTML = `
+        <p>Name: <input type="text" name="polygonName" id="polygonName"></p>
+        <p>Color: <select id="colorListEdit">
+            <option value="#FFB400">Contested</option>
+            <option value="#004BFF">Ukraine</option>  
+            <option value="#C80000">Russia</option>
+        </select></p>
         <p><button id="undoButton">Undo</button> | Snap: <input type="button" value="Off" id="snapButton"> | <button id="doneEditButton">Done</button></p>
         `;
         this.#editPolygonBlock.style.display = 'none';
@@ -111,6 +119,8 @@ class OsintMap {
         this.addButtonFunction('doneEditButton', this.donePolygonEdit);
         this.addButtonFunction('snapButton', this.snapToggle);
         this.addButtonFunction('undoButton', this.undoPolygonNode);
+        this.#colorListEdit = this.#editPolygonBlock.querySelector('#colorListEdit');
+        this.#colorListEdit.addEventListener('change', this.colorChange);
     }
 
     set subMenuBlock(value){
@@ -290,6 +300,17 @@ class OsintMap {
 
     undoPolygonNode(){
         this.#pol.pop();
+    }
+
+    colorChange(){ //TODO merge with create new
+        console.log('ColorChanged');
+        if(this.#activePolygon){
+            this.#activePolygon.polygon.setStyle({color: this.#colorListEdit.value});
+        }
+    }
+
+    nameChange(){
+        console.log('NameChanged');
     }
     
 //#endregion 

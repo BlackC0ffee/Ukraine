@@ -146,7 +146,9 @@ class OsintMap {
             this.showBlock(this.#subMenuBlock, 'block');
             switch (this.#activePolygon.type) {
                 case 'polygon':
+                    let strokeButton = this.#subMenuBlock.querySelector('#strokeButton');
                     this.#subMenuBlock.querySelector('#polygonSubMenu').style.display = 'block';
+                    if(this.#activePolygon.polygon.options.stroke){strokeButton.value = 'On'} else{ strokeButton.value = 'Off' }
                     this.addButtonFunction('strokeButton', this.stroke)
                     break;
                 default:
@@ -301,7 +303,7 @@ class OsintMap {
     }
 
     editButtonClick(){
-        this.showBlock(this.#editPolygonBlock, 'display');
+        this.showBlock(this.#editPolygonBlock, 'block');
         map.on('click', this.onMapClick);
         this.toggleCrosshair('on');
     }

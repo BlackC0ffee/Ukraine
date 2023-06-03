@@ -116,7 +116,7 @@ class OsintMap {
         `;
         this.#editPolygonBlock.style.display = 'none';
         this.#snapButton = this.#editPolygonBlock.querySelector('#snapButton');
-        this.addButtonFunction('editButton',this.showBlock, this.#editPolygonBlock, undefined); // need to be moved to menu?
+        this.addButtonFunction('editButton',this.editButtonClick);
         this.addButtonFunction('doneEditButton', this.donePolygonEdit);
         this.addButtonFunction('snapButton', this.snapToggle);
         this.addButtonFunction('undoButton', this.undoPolygonNode);
@@ -292,11 +292,18 @@ class OsintMap {
                     for (var i=0; i<this.#colorListEdit.length; i++){
                         if(this.#colorListEdit.options[i].value == this.#activePolygon.polygon.options.color){
                             this.#colorListEdit.options[i].selected = true;
-                        }   
+                        }
+                        
                     }
                 } 
             }
         });
+    }
+
+    editButtonClick(){
+        this.showBlock(this.#editPolygonBlock, 'display');
+        map.on('click', this.onMapClick);
+        this.toggleCrosshair('on');
     }
 
     donePolygonEdit(){

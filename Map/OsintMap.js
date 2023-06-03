@@ -287,6 +287,14 @@ class OsintMap {
             let p = element.polygon
             if(layer == p){
                 this.makePolygonActive(element.id);
+                if(this.#activePolygon.id == element.id){ //this means that the makePolygonActive was succesfull
+                    this.#polygonNameEdit.value = this.#activePolygon.name;
+                    for (var i=0; i<this.#colorListEdit.length; i++){
+                        if(this.#colorListEdit.options[i].value == this.#activePolygon.polygon.options.color){
+                            this.#colorListEdit.options[i].selected = true;
+                        }   
+                    }
+                } 
             }
         });
     }

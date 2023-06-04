@@ -258,11 +258,6 @@ class OsintMap {
                 this.#activePolygon.polygon._latlngs[0].forEach(element => { //TODO: replace with method getLatLngs()
                     this.#pol.push([element.lat,element.lng])
                 });
-                // if(activePolygon.polygon.options.stroke){
-                //     document.getElementById("strokeButton").value = "On"
-                // }else{
-                //     document.getElementById("strokeButton").value = "Off"
-                // }
             }     
         }
     }
@@ -357,12 +352,11 @@ class OsintMap {
         this.#pol = new Array();
         this.#activePolygon = {id: (new Date().getTime()), type: 'polygon', name: name, polygon: L.polygon(this.#pol, {color: color, stroke: true}).addTo(this._map) }
         this.#listOfPolygons.push(this.#activePolygon);
+        this.#activePolygon.polygon.on({ dblclick: this.dblclickOnPolygonEvent });
         map.on('click', this.onMapClick);
         this.toggleCrosshair('on');
         this.showBlock(this.#newPolygonBlock, 'none');
         this.showBlock(this.#editPolygonBlock, 'block');
-        //if(document.getElementById("selectPolygonButton").textContent == "On"){ document.getElementById("selectPolygonButton").dispatchEvent(new Event('click')); }
-        //if(document.getElementById("strokeButton").value == "Off"){ document.getElementById("strokeButton").dispatchEvent(new Event('click')); }
     }
 
     onMapClick(e) {
@@ -479,9 +473,7 @@ class OsintMap {
                 element.type = 'polygon';
             }
             let innerPolygon = {id: element.id, type: element.type, name: element.name, polygon: L.polygon(element.polygonCordinates, {color: element.color, stroke: element.stroke}).addTo(map) }
-            innerPolygon.polygon.on({
-                dblclick: this.dblclickOnPolygonEvent //FIX: should be called when creating the polygon I guess, not only when uploading/redrawing the polygons
-            });
+            innerPolygon.polygon.on({ dblclick: this.dblclickOnPolygonEvent });
             this.#listOfPolygons.push(innerPolygon);
             
         });

@@ -301,6 +301,7 @@ class OsintMap {
         this.showBlock(this.#editPolygonBlock, 'block');
         map.on('click', this.onMapClick);
         this.toggleCrosshair('on');
+        this.setColorListValue(this.#activePolygon);
     }
 
     donePolygonEdit(){
@@ -355,6 +356,7 @@ class OsintMap {
         this.#activePolygon.polygon.on({ dblclick: this.dblclickOnPolygonEvent });
         map.on('click', this.onMapClick);
         this.toggleCrosshair('on');
+        this.setColorListValue(this.#activePolygon);
         this.showBlock(this.#newPolygonBlock, 'none');
         this.showBlock(this.#editPolygonBlock, 'block');
     }
@@ -451,6 +453,18 @@ class OsintMap {
         if (typeof boolean === 'boolean'){
             return boolean === true ? false : true;
         }
+    }
+
+    setColorListValue(e){
+        if(e){
+            for (var i=0; i<this.#colorListEdit.length; i++){
+                if(this.#colorListEdit.options[i].value == e.polygon.options.color){
+                    this.#colorListEdit.options[i].selected = true;
+                }
+                
+            }   
+        }
+
     }
 
 //#endregion

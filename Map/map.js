@@ -8,6 +8,14 @@ function onMapClick(e) {
     generateActivePolygon(pol);
 }
 
+function addDistanceNodeEvent(e){
+    if(pol.length == 0){ //Add first node
+        pol.push([e.latlng.lat,e.latlng.lng]);
+    }else if(pol.length == 1){  //add second node
+        pol.push([e.latlng.lat,e.latlng.lng]);
+    }
+}
+
 function initVariable(){ //add optional expection for blob (a.href), then use it as reset function
     if(globalThis.listOfPolygons){
         globalThis.listOfPolygons.forEach(element => { 
@@ -33,6 +41,17 @@ function newPolygonEvent() {
     newPolygon(name, colorOptions.value);
     document.getElementById('addNewPolygon').style.display = 'none';
     document.getElementById('editToolsDiv').style.display = 'block';
+}
+
+function newDistanceObjectEvent() {
+    var name;
+    var color = document.getElementById('distanceColor')
+    if(document.getElementById('distanceName').value != ""){
+        name = document.getElementById('distanceName').value;
+    }else{
+        name = color.value;
+    }
+    newDistanceObject(name, color.value);
 }
 
 function findClosetNode(e){ // BROKEN, needs to be replaced with a distance to nodes
@@ -94,7 +113,16 @@ function newPolygon(name, color){
     if(document.getElementById("strokeButton").value == "Off"){ document.getElementById("strokeButton").dispatchEvent(new Event('click')); }
 }
 
-function BuildPolygonList(){
+function newDistanceObject(name, color){
+    pol = new Array();
+    activePolygon = {id: (new Date().getTime()), name: name, distance: L.polyline(pol, {color: color, stroke: true}).addTo(map) }
+    listOfPolygons.push(activePolygon);
+    BuildPolygonList();
+    EnableCrosshair();
+    addDistanceListners();
+}
+
+function BuildPolygonList(){ // DONE
     list = document.getElementById('PolygonsList');
     for (i = list.length - 1; i >= 0; i--) {
         list.remove(i);
@@ -107,13 +135,6 @@ function BuildPolygonList(){
         list.options.add(opt);
     }
 
-    //Stats
-    stats = document.getElementById('stats');
-    nodecounter = 0
-    globalThis.listOfPolygons.forEach(element => {
-        nodecounter += element.polygon._latlngs[0].length;
-    });
-    stats.textContent = "Number of Polygons: " + globalThis.listOfPolygons.length + "\rNumber of nodes: " + nodecounter;
 }
 
 function RemoveSelected(){
@@ -267,20 +288,25 @@ function selectPolygonOnOff(e){
         //3. enable onMapClick
         //4. set Text of button on Off
 
-    if(e.currentTarget.textContent == "Off"){
-        e.currentTarget.textContent = "On";
+    e = document.getElementById('selectPolygonButton');
+    if(e.textContent == "Off"){
+        e.textContent = "On";
         map.off('click', onMapClick);
         globalThis.listOfPolygons.forEach(element => {
             element.polygon.on({ dblclick: dblclickOnPolygonEvent });
         });
     }else{
-        e.currentTarget.textContent = "Off";
+        e.textContent = "Off";
         map.on('click', onMapClick);
         globalThis.listOfPolygons.forEach(element => {
             element.polygon.off({ dblclick: dblclickOnPolygonEvent });
         });
-        activePolygon.polygon.setStyle({stroke: false})
+        //activePolygon.polygon.setStyle({stroke: false})
     }
+}
+
+function addDistanceListners(){
+    map.on('click', addDistanceNodeEvent);
 }
 
 function getRenamePrompt(e) {
@@ -333,12 +359,24 @@ function updateColor(){
     document.getElementById('changeColorDiv').style.display = 'none';
 }
 
+function editPolygonButtonEvent(){
+    selectPolygonOnOff();
+    EnableCrosshair();
+    document.getElementById('editToolsDiv').style.display = 'block';
+}
+
 function newPolygonButtonEvent(){
     document.getElementById('addNewPolygon').style.display = 'block';
 }
 
 function doneButtonEvent(){
     document.getElementById('editToolsDiv').style.display = 'none';
+    DisableCrosshair();
+    selectPolygonOnOff();
+}
+
+function newDistanceButton(){
+    document.getElementById('newDistanceDiv').style.display = 'block';
 }
 
 

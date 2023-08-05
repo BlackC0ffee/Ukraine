@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
     <script src="config.json"></script>
-    <Script src="map.js"></Script>
+    <Script src="OsintMap.js"></Script>
     <!--<script src="./plugins/leaflet-search.src.js"></script>-->
     <link rel="stylesheet" href="./style.css" />
             
@@ -14,114 +14,54 @@
 <body>
 <div id="sidebar">
     <div id="menuButtonDiv"><button type="button" id="menuButton">>></button></div>
-    <div class="menuDiv">
-        Selection mode: <button type="button" id="selectPolygonButton">On</button>
+    <div id="mainMenuDiv"></div>
+    <div id="subMenuDiv"></div>
+    <div id="newPolyhonDiv"></div>
+    <div id="editPolygonDiv"></div>
+
+    <div id="newDistanceDiv">
+        <p>Name: <input type="text" name="distanceName" id="distanceName"></p>
+        <p>Color: <input type="color" id="distanceColor" name="distanceColor" value="#00FF00"> <button id="newDistanceObject">Add New Distance Line</button></p>
     </div>
-    <div>
-        <p>Active Polygon: <input type="text" id="activePolygonName" readonly="readonly" /></p>
-        <p><button type="button" id="renameButton">Rename</button> | <button type="button" id="changeColorButton">Change Color</button></p>
-        <p>Stroke: <input type="button" value="On" id="strokeButton"></p>
-        <p><button type="button" id="newPolygonButton">New Polygon</button> | <button id="removeActivePolygonButton">Remove Polygon</button></p>
-    </div>
-    <div id="changeColorDiv">
-        <form name="changeColor">
-            Change Side / color : <select id="changeColorList">
-                <option value="#FFB400" id="Contested">Contested</option>
-                <option value="#004BFF" id="Ukraine">Ukraine</option>  
-                <option value="#C80000" id="Russia">Russia</option>
-            </select> <button type="button" id="saveColor">Save</button>
-        </form>
-    </div>
-    <div id="addNewPolygon">
-        <p>Name: <input type="text" name="polygonName" id="polygonName"></p>
-        <p>Color: <select id="colorList">
-            <option value="#FFB400">Contested</option>
-            <option value="#004BFF">Ukraine</option>  
-            <option value="#C80000">Russia</option>
-        </select> <button id="newPolygon" onclick="">Add Polygon</button></p>
-    </div>
-    <div id="editToolsDiv">
-        <p><button id="undoButton">Undo</button> | Snap: <input type="button" value="Off" id="snapButton" onclick="snapButtonCick(this);"> | <button id="doneButton">Done</button></p>
-    </div>
-    <div>
-        <form id="upload">
-            <label for="file">File to upload</label>
-            <input type="file" id="file" accept=".json">
-            <button type="submit">Upload</button>
-        </form>
-        <p><a href="" id="a">Download File</a></p>
-        <p><button id="redrawButton">Redraw</button></p>
-    </div>
-    <div id="stats">
-        
-    </div>
-    <div id="debugDiv">
-        <textarea id="OutputBox" rows="5" cols="29"></textarea> 
-        <select id="PolygonsList" size="10"></select>
-    </div>
+    
+    <div id="stats"></div>
+    <div id="debugDiv"></div>
 </div>
 <div id="map"></div>
 <script>
 
 //Events
-document.getElementById("newPolygon").addEventListener("click", newPolygonEvent);
-document.getElementById("upload").addEventListener('submit', uploadJson);
 document.getElementById("menuButton").addEventListener('click', sidebarToggle);
-document.getElementById("selectPolygonButton").addEventListener('click', selectPolygonOnOff);
-document.getElementById("renameButton").addEventListener('click', getRenamePrompt);
-document.getElementById("changeColorButton").addEventListener('click', changeColor);
-document.getElementById("PolygonsList").addEventListener('change', polygonSelectObjectChange);
-document.getElementById("saveColor").addEventListener('click', updateColor);
-document.getElementById('newPolygonButton').addEventListener('click', newPolygonButtonEvent);
-document.getElementById('strokeButton').addEventListener('click', stroke);
-document.getElementById('undoButton').addEventListener('click', undoButtonClick);
-document.getElementById('removeActivePolygonButton').addEventListener('click', RemoveSelected);
-document.getElementById('redrawButton').addEventListener('click', redrawPolygons);
-document.getElementById('doneButton').addEventListener('click', doneButtonEvent);
-
-//Functions
 
 //MappShizzle
 var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; OpenStreetMap'});
 var stadia = L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {maxZoom: 20, attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'});
 var map = L.map('map', {center: [39.73, -104.99], zoom: config.ZoomLevel, zoomDelta: 0.7, zoomSnap: 1, center: new L.latLng([config.Longitude,config.Latitude])});
 osm.addTo(map);
-
 var baseMaps = { "OpenStreetMap": osm, "Stadia Maps": stadia };
 var layerControl = L.control.layers(baseMaps).addTo(map);
-//var pol = new Array();
-//var listOfPolygons = Array();
-//var activePolygon
 
-//50.40675, 30.53378
-var one = 50.40675
-var two = 30.53378
+//////// Osint
+var osintMap = new OsintMap(map);
+osintMap.mainMenuBlock = document.getElementById('mainMenuDiv');
+osintMap.stats = document.getElementById('stats');
+osintMap.debugDiv = document.getElementById('debugDiv');
+osintMap.newPolygonBlock = document.getElementById('newPolyhonDiv');
+osintMap.editPolygonBlock = document.getElementById('editPolygonDiv');
+osintMap.subMenuBlock = document.getElementById('subMenuDiv');
+document.getElementById('newPolygonButton').addEventListener('click', osintMap.clickEvent);
+document.getElementById('editButton').addEventListener('click', osintMap.clickEvent);
+////////
 
-var latlngs = [
-    [one, two],
-    [one + 0.00100, two + 0.00100]
-];
-
-var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
-
-initVariable();
-
-//map.on('click', onMapClick);
-
+// Sidebar Function
 function sidebarToggle(e) {
     if(document.getElementById("sidebar").style.width == "250px"){
         document.getElementById("sidebar").style.width = "50px";
         document.getElementById("map").style.marginLeft = "50px";
-/*         document.querySelectorAll('.menuDiv').forEach(element => {
-            element.style.display = "none";
-        }); */
         e.currentTarget.textContent = ">>";
     }else{
         document.getElementById("sidebar").style.width = "250px";
         document.getElementById("map").style.marginLeft = "250px";
-/*         document.querySelectorAll('.menuDiv').forEach(element => {
-            element.style.display = "block";
-        }); */
         e.currentTarget.textContent = "<<";
     }
 }

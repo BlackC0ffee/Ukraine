@@ -1,4 +1,4 @@
-# Ukraine Report - Alpha-Two
+# Ukraine Report - Alpha-Three
 
 
 > This project is depending on Leafletjs, which is created by [Volodymyr Agafonkin](https://agafonkin.com) who lives in Kyiv (Ukraine).
@@ -9,70 +9,114 @@
 >[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
 
 
-Welcome to alpha-Two. This release provides a buggy but more workable version of my mapping application I use to report over the situation in Ukraine. It still requires clean-up of code and allot of features needs to be added.
+Welcome to Alpha-Three! This release includes a significant amount of code that has been rewritten and moved to an OsintMap.js file/class.
 
-Yes, I know the code is a disaster, I’m planning to clean it up -_-
+![Screenshot of Alpha-Three](Media/Documentation/Alpha-Three.png)
 
-Please note that the "way-of-working" could change in future updates.
+Please note that the "way-of-working" may change in future updates.
 
-To run it. Install Docker and run the container from inside the root folder of the project.
+To run the application, follow these steps:
+
+1. Install Docker on your system.
+2. Navigate to the root folder of the project.
+3. Run the following Docker command to start the container:
 
 ```docker run -d -p 80:80 -v $(pwd)/Map:/usr/share/nginx/html nginx```
 
-## Tools
+This command will set up and run the application inside the Docker container, making it accessible on port 80.
 
-### Select mode
+If you encounter any issues, feel free to reach out. Enjoy using Alpha-Three!
 
-If "ON" nothing can be edited on the map and a double click causes the polygon to be become active.
+## Main Menu
 
-### Active Polygon
+The Main Menu is always visible and contains the core part of how to opperate this app.
 
-This will show the name of the Polygon that is currently active. You can make a polygon active by double clicking it when Select Mode is ON, or by creating a new polygon
+![Main Menu with markings](Media/Documentation/MainMenu.png)
 
-#### Rename
+1. **Sidebar button**:  Click here to open or close the sidebar.
+2. **File Operations**:  Use this option to open an existing map or download your current working map.
+3. **New Objects**: Click on these buttons to add a new object, such as a polygon area or a line.
+4. **Active Object**: Provides information about the currently selected or active object, with options to **edit** or **remove** it.
 
-**⚠ Doesn't work ATM**
+### File Operations
 
-Can be used to rename the name of the Polygon. 
+In this section, you can perform essential file operations for your maps.
 
-#### Change Color
+* **Open**: Click this button to open a map that you have modified before.
+* **Download File**: Use this button to download the current working map. The file will be downloaded locally with the name *yyyy-MM-dd*.json, where *yyyy-MM-dd* represents the current date.
 
-Provides an option to change the 'color' and side of the active polygon on the map.
-1. Make sure an Active Polygon is selected (you can use Select mode if needed)
-2. Click **Change Color**
-3. Select the side or color
-4. Click **Save**
+### New Objects
 
-#### Stroke
+At the moment, the only available object type is the Polygon. For more information about the Polygon Object, please refer to the relevant section in the documentation.
 
-Provides an option to add a "stroke" to the active polygon
+### Active Object
 
-1. Make sure an Active Polygon is selected (you can use Select mode if needed).
-2. Click on the button next to "Stroke" to turn it off and on.
+This section provides information about the currently active object like the name and type. 
 
-#### New Polygon
-1. Click on **New Polygon**
-2. Enter a name in the Name field (this is optional)
-3. Select the Color/Side
-4. Click in **Add Polygon**
+* **Edit**: allow you to modify the selected object.
+* **Remove**: Immediately remove the object without any **confirmation**. ⚠️
 
-You can now start adding the polygon
+## Polygon
 
-#### Remove Polygon
+A Polygon represents an area on the map that can be used to mark territorial control by a certain party. Currently, three types of polygons are available:
 
-Clicking this button will remove the active Polygon without any warning. Use with caution.
+1. **Contested (yellow)**: This type indicates an area that is being disputed or contested by multiple parties.
+2. **Ukraine (blue)**: This type signifies an area under the control of Ukraine.
+3. **Russia (red)**: This type represents an area under the control of Russia.
 
-### Edit mode
+### New Polygon
+
+To add an area to the map, click on **New Polygon**.
+
+You will be presented with a form where you need to provide the following information:
+* **Name** (Optional): You can add a name to the area. If left blank, it will take the name of the selected party.
+* **Color**: Select one of the configured parties from the dropdown.
+* **Add Polygon**: Clicking this button will add the object to the map and enable you to start drawing the area.
+
+![Example of the form when you want to add a new polygon](Media/Documentation/AddNewPolygonForm.png)
+
+After clicking **Add Polygon**, you can start adding nodes to define the shape of the polygon. Click the left mouse button to add a node, and use the scroll wheel to zoom in and out while adding nodes.
+
+![Animation of adding nodes to the map](Media/Documentation/AddNodes.webp)
+
+Clicking **Done** will stop the process of adding nodes, finalizing the polygon's shape.
+
+### Edit a Polygon
+
+To edit an existing polygon, follow these steps:
+
+1. While not editing or adding a new polygon, double click on the polygon you want to make active and then click on **Edit** in the Active Object area.
+2. This will start the editing process, allowing you to make changes to the active polygon. You can remove existing nodes or add new nodes to modify the shape of the polygon.
+3. Click **Done** to stop the edit process and finalize the polygon's updated shape.
+
+![Animation where a polygone is been edited](Media/Documentation/EditPolygon.webp)
+
+### Polygon Options/Functions
+
+While having a polygon active or while editing or adding it, you can use the following functions:
+
+#### Stroke (On/Off)
+
+Toggles the presence of a line around the polygon. Turning it on adds a stroke, while turning it off removes the stroke.
+
+#### Name
+
+Changing this field during the editing process will update the name of the Polygon.
+
+#### Color
+
+Changing this field during the editing process will update the party associated with the polygon.
 
 #### Undo
 
-Removes the last point of the active polygon
+Clicking on this button will remove the last node added during the editing process, effectively undoing the last step.
 
-#### Snapping
+#### Snap (On/Off)
 
-If "ON", the closest existing polygon will be chosen
+When this option is enabled, a new node will automatically snap to the closest existing node on the map during the editing process.
+
 ![alt](Media/Snapping.webp)
 
-#### Done
+## Remarks and additonal notes
 
-Stops adding the polygone
+ChatGPT was utilized to enhance the content and clarity of this document. More information, please visit the official OpenAI website: <https://openai.com/chatgpt>
